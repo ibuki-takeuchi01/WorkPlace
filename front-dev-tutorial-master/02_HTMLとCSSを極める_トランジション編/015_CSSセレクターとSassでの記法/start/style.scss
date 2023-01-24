@@ -1,0 +1,15 @@
+.parent{
+  color: blue;
+
+  & > .elemet{
+    color: purple;
+
+    &.second-child{
+      color: black;
+    }
+  }
+}
+
+.elemet{
+  color: red;
+}

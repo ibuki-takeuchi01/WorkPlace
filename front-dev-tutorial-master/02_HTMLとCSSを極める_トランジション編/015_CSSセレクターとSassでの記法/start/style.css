@@ -1,0 +1,13 @@
+.parent {
+  color: blue;
+}
+.parent > .elemet {
+  color: purple;
+}
+.parent > .elemet.second-child {
+  color: black;
+}
+
+.elemet {
+  color: red;
+}/*# sourceMappingURL=style.css.map */
