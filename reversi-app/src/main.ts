@@ -6,7 +6,8 @@ const PORT = 3000
 
 const app = express()
 
-app.use(morgan('dev')) // 
+app.use(morgan('dev'))
+app.use(express.static('static', { extensions: ['html'] }))
 
 app.get('/api/hello', async (req, res) => {
   res.json({
