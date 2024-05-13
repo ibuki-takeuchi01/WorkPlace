@@ -1,3 +1,3 @@
 #! /bin/bash
 
-docker-compose exec mysql mysql --user=root --password=rootpassword reversi
+docker-compose exec mysql mysql --user=reversi --password=password reversi
