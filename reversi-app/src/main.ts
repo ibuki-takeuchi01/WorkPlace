@@ -130,10 +130,12 @@ app.post('/api/games/latest/turns', async (req, res) => {
   const disc = parseInt(req.body.move.disc)
   const x = parseInt(req.body.move.x)
   const y = parseInt(req.body.move.y)
-  
-  // 1つ前のターンを取得する
+
   const conn = await connectMySQL()
   try {
+    await conn.beginTransaction()
+
+    // 1つ前のターンを取得する
     const gameSelectResult = await conn.execute<mysql.RowDataPacket[]>(
       'select id, started_at from games order by id desc limit 1'
     )
@@ -156,12 +158,12 @@ app.post('/api/games/latest/turns', async (req, res) => {
       board[s.y][s.x] = s.disc
     })
 
-    // 盤面に置けるかチェック
+    // TODO 盤面に置けるかチェック
 
     // 石を置く
     board[y][x] = disc
 
-    // ひっくり返す
+    // TODO ひっくり返す
 
     // ターンを保存する
     const nextDisc = disc === DARK ? LIGHT : DARK
@@ -172,10 +174,9 @@ app.post('/api/games/latest/turns', async (req, res) => {
     )
     const turnId = turnInsertResult[0].insertId
 
-    const squareCount = board.map((line) => line.length).reduce(
-      (v1, v2) => v1 + v2,
-      0
-    )
+    const squareCount = board
+      .map((line) => line.length)
+      .reduce((v1, v2) => v1 + v2, 0)
 
     const squaresInsertSql =
       'insert into squares (turn_id, x, y, disc) values ' +
@@ -201,12 +202,11 @@ app.post('/api/games/latest/turns', async (req, res) => {
     )
 
     await conn.commit()
-
   } finally {
     await conn.end()
   }
 
-  res.status(201).end
+  res.status(201).end()
 })
 
 app.use(errorHandler)
