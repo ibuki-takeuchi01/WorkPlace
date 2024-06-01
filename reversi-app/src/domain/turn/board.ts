@@ -35,6 +35,9 @@ private _walledDiscs: Disc[][]
     newDiscs[move.point.y][move.point.x] = move.disc
 
     // ひっくり返す
+    flipPoints.forEach((p) => {
+      newDiscs[p.y][p.x] = move.disc
+    })
 
     return new Board(newDiscs)
   } 
@@ -81,7 +84,7 @@ private _walledDiscs: Disc[][]
   checkFlipPoints(1, 0)
   // 右上
   checkFlipPoints(1, -1)
-  
+
   return flipPoints
 }
 
