@@ -1,3 +1,4 @@
+import { DomainError } from "../../error/domainError";
 import { Disc, isOppositeDisc } from "./disc";
 import { Move } from "./move";
 import { Point } from "./point";
@@ -13,7 +14,7 @@ private _walledDiscs: Disc[][]
   place(move: Move): Board {
     // Todo 盤面に置けるかチェック
     if (this._discs[move.point.y][move.point.x] !== Disc.Empty) {
-      throw new Error('Selected point is not empty')
+      throw new DomainError('SelectedPointIsNotEmpty' ,'Selected point is not empty')
     }
 
     // ひっくり返せる点をリストアップ
@@ -21,7 +22,7 @@ private _walledDiscs: Disc[][]
 
     // ひっくり返せる点がない場合、置くことはできない
     if(flipPoints.length === 0) {
-      throw new Error('Flip points is empty')
+      throw new DomainError('FlipPointIsEmpty', 'Flip points is empty')
     }
 
     // 盤面をコピー

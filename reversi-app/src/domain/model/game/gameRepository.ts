@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise'
 import { Game } from "./game";
-import { GameGateway } from '../../infrastructure/gamegateway';
+import { GameGateway } from '../../../infrastructure/gamegateway';
 
 const gameGateway = new GameGateway() 
 
