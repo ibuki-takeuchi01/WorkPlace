@@ -1,4 +1,4 @@
-export class GameRecord{
+export class GameRecord {
   constructor(private _id: number, private _startedAt: Date){}
 
   get id(){
