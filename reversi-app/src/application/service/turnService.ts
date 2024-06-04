@@ -3,13 +3,9 @@ import { Disc } from '../../domain/model/turn/disc'
 import { Point } from '../../domain/model/turn/point'
 import { ApplicationError } from '../error/applicationError'
 import { GameResult } from '../../domain/model/gameResult/gameResult'
-import { TurnMySQLRepository } from '../../infrastructure/repository/turn/turnMySQLRepository'
-import { GameMySQLRepository } from '../../infrastructure/repository/game/gameMySQLRepository'
-import { GameResultMySQLRepository } from '../../infrastructure/repository/gameResult/gameResultMySQLRepository'
-
-const turnRepository = new TurnMySQLRepository()
-const gameRepository = new GameMySQLRepository()
-const gameResultRepository = new GameResultMySQLRepository() 
+import { TurnRepository } from '../../domain/model/turn/turnRepository'
+import { GameRepository } from '../../domain/model/game/gameRepository'
+import { GameResultRepository } from '../../domain/model/gameResult/gameResultRepository'
 
 class FindLatestGameTurnByTurnCountOutput {
   constructor(
@@ -37,10 +33,17 @@ class FindLatestGameTurnByTurnCountOutput {
 }
 
 export class TurnService {
+
+  constructor(
+    private _turnRepository: TurnRepository,
+    private _gameRepository: GameRepository,
+    private _gameResultRepository: GameResultRepository
+  ) {}
+
   async findLatestGameTurnByTurnCount(turnCount: number): Promise<FindLatestGameTurnByTurnCountOutput>{
     const conn = await connectMySQL()
   try {
-    const game = await gameRepository.findLatest(conn)
+    const game = await this._gameRepository.findLatest(conn)
     if(!game){
       throw new ApplicationError('LatestGameNotFound', 'Latest game not found')
     }
@@ -48,7 +51,7 @@ export class TurnService {
       throw new Error('game.id not exist')
     } 
 
-    const turn = await turnRepository.findGameIdAndTurnCount(
+    const turn = await this._turnRepository.findGameIdAndTurnCount(
       conn,
       game.id,
       turnCount
@@ -56,7 +59,7 @@ export class TurnService {
 
     let gameResult: GameResult | undefined
     if (turn.gameEnded()) {
-      gameResult = await gameResultRepository.findForGameId(conn, game.id)
+      gameResult = await this._gameResultRepository.findForGameId(conn, game.id)
     }
 
     return new FindLatestGameTurnByTurnCountOutput(
@@ -76,7 +79,7 @@ export class TurnService {
   ){
     const conn = await connectMySQL()
   try {
-    const game = await gameRepository.findLatest(conn)
+    const game = await this._gameRepository.findLatest(conn)
     if(!game){
       throw new ApplicationError('LatestGameNotFound' ,'Latest game not found')
     }
@@ -85,7 +88,7 @@ export class TurnService {
     }
 
     const previousTurnCount = turnCount - 1
-    const previousTurn = await turnRepository.findGameIdAndTurnCount(
+    const previousTurn = await this._turnRepository.findGameIdAndTurnCount(
       conn,
       game.id,
       previousTurnCount
@@ -95,13 +98,13 @@ export class TurnService {
     const newTurn = previousTurn.placeNext(disc, point)
 
     // ターンを保存する
-    await turnRepository.save(conn, newTurn)
+    await this._turnRepository.save(conn, newTurn)
 
     // 勝敗が決した場合、対戦結果を保存
     if (newTurn.gameEnded()) {
       const winnerDisc = newTurn.winnerDisc()
       const gameResult = new GameResult(game.id, winnerDisc, newTurn.endAt)
-      await gameResultRepository.save(conn, gameResult)
+      await this._gameResultRepository.save(conn, gameResult)
 
       // 対戦結果を保存
     }
