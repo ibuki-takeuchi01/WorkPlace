@@ -1,24 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Image, View, Text } from 'react-native';
 
-export const ListItem = () => {
+/**
+ * 
+ * @param {
+ *   imageUrl: 画像URL(string)
+ *   title: タイトル(string)
+ *   author: ニュース提供元(string)
+ * } props 
+ * @returns 
+ */
+export const ListItem = (props) => {
   return (
     <View style={styles.itemContainer}>
       <View style={styles.leftContainer}>
         <Image
           style={{ width: 100, height: 100 }}
-          source={{
-            uri: 'https://picsum.photos/seed/picsum/200/300',
-          }}
+          source={{ uri: props.imageUrl }}
         />
       </View>
       <View style={styles.rightContainer}>
         <Text numberOfLines={3} style={styles.text}>
-          Hirotsugu Kimura, a 24-year-old company employee,
-          has become the youngest Japanese to complete a solo voyage around the world on a sailboat
-          without making any port calls or receiving supplies.
+          {props.title}
         </Text>
-        <Text style={styles.subText}>React News</Text>
+        <Text style={styles.subText}>{props.author}</Text>
       </View>
     </View>
   );
