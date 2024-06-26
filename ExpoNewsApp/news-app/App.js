@@ -1,17 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View, Text } from 'react-native';
 
 export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.itemContainer}>
         <View style={styles.leftContainer}>
-          <Image 
+          <Image
             style={{width: 100, height: 100}}
-            source={{uli: "https://picsum.photos/id/10/300/300"}}>
-          </Image>
+            source={{
+              uri: 'https://picsum.photos/seed/picsum/200/300',
+            }}
+          />
         </View>
-        <View style={styles.rightContainer}></View>
+        <View style={styles.rightContainer}>
+          <Text numberOfLines={3} style={styles.text}>
+            Hirotsugu Kimura, a 24-year-old company employee, 
+            has become the youngest Japanese to complete a solo voyage around the world on a sailboat 
+            without making any port calls or receiving supplies.
+          </Text>
+          <Text style={styles.subText}>React News</Text>
+        </View>
       </View>
       <StatusBar style="auto" />
     </View>
@@ -28,15 +37,22 @@ const styles = StyleSheet.create({
   itemContainer: {
     height: 100,
     width: "100%",
-    backgroundColor: "red",
+    backgroundColor: "white",
     flexDirection: "row"
   },
   leftContainer: {
     width: 100,
-    backgroundColor: "green"
   },
   rightContainer: {
     flex: 1,
-    backgroundColor: "blue"
+    padding: 10,
+    justifyContent: "space-between"
+  },
+  text: {
+    fontSize: 16,
+  },
+  subText: {
+    fontSize: 12,
+    color: "gray",
   }
 });
