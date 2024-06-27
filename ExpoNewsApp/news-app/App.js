@@ -1,20 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Image, View, Text } from 'react-native';
 import { ListItem } from "./components/ListItem"
+import articles from "./components/dummies/articles.json"
 
 export default function App() {
+  const items = articles.map((article, index) => {
+    return (
+      <ListItem imageUrl={article.urlToImage} title={article.title} author={article.author} key={index.toString()} />
+    )
+  })
+
   return (
     <View style={styles.container}>
-      <ListItem
-        imageUrl={"https://picsum.photos/seed/picsum/200/700"}
-        title={"Hirotsugu Kimura, a 24-year-old company employee, has become the youngest Japanese to complete a solo voyage around the world on a sailboat without making any port calls or receiving supplies."}
-        author={"React Native"}
-      />
-      <ListItem
-        imageUrl={"https://picsum.photos/seed/picsum/500/300"}
-        title={"I`m very happy to be able to come back after successfully sailing around the world,” Kimura said with a smile at a ceremony held to celebrate his safe return."}
-        author={"React Native"}
-      />
+      {items}
       <StatusBar style="auto" />
     </View>
   );
