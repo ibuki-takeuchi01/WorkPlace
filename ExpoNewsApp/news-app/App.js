@@ -5,7 +5,7 @@ import { ListItem } from "./components/ListItem";
 import axios from "axios";
 
 const URL =
-  "https://newsapi.org/v2/top-headlines?country=jp&category=business&apiKey=2c5d780d6ec14a3583025692d3045ce3";
+  "https://newsapi.org/v2/top-headlines?country=jp&category=business&apiKey=";
 
 export default function App() {
   const [articles, setArticles] = useState([]);
