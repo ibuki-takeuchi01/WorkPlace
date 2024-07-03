@@ -31,7 +31,7 @@ export const HomeScreen = ({ navigation }) => {
             imageUrl={item.urlToImage}
             title={item.title}
             author={item.author}
-            onPress={() => navigation.navigate("Article")}
+            onPress={() => navigation.navigate("Article", { article: item })}
           />
         )}
         keyExtractor={(item, index) => index.toString()}
