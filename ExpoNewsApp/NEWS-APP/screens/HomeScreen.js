@@ -6,7 +6,7 @@ import axios from "axios";
 const URL =
   "https://newsapi.org/v2/top-headlines?country=jp&category=business&apiKey=";
 
-export const HomeScreen = () => {
+export const HomeScreen = ({ navigation }) => {
   const [articles, setArticles] = useState([]);
 
   const fetchArticles = async () => {
@@ -31,6 +31,7 @@ export const HomeScreen = () => {
             imageUrl={item.urlToImage}
             title={item.title}
             author={item.author}
+            onPress={() => navigation.navigate("Article")}
           />
         )}
         keyExtractor={(item, index) => index.toString()}
