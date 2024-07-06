@@ -5,7 +5,8 @@ import { FontAwesome } from "@expo/vector-icons"
 import { HomeScreen } from './screens/HomeScreen';
 import { ArticleScreen } from './screens/ArticleScreen';
 import { ClipScreen } from './screens/ClipScreen';
-
+import { store } from './store'
+import { Provider } from 'react-redux'
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -31,11 +32,13 @@ const HomeStack = () => {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={screenOption}>
-        <Tab.Screen name="HomeTab" component={HomeStack} options={{ headerShown: false, title: "Home" }} />
-        <Tab.Screen name="ClipTab" component={ClipScreen} options={{ headerShown: false, title: "Clip" }} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={screenOption}>
+          <Tab.Screen name="HomeTab" component={HomeStack} options={{ headerShown: false, title: "Home" }} />
+          <Tab.Screen name="ClipTab" component={ClipScreen} options={{ headerShown: false, title: "Clip" }} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
