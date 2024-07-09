@@ -1,41 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { initializeApp } from 'firebase/app';
-import "firebase/firestore";
 import { useEffect, useState } from 'react';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
-
-
-// Initialize Firebase
-const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
-  measurementId: ""
-};
-
-
-type Shop = {
-  name: string;
-  place: string;
-}
+import { getShops } from './src/lib/firebase';
+import { Shop } from './src/types/shop';
 
 export default function App() {
-
   const [shops, setShops] = useState<Shop[]>([]);
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
 
   useEffect(() => {
     getFirebaseItems();
   }, []);
 
   const getFirebaseItems = async () => {
-    const querySnapshot = await getDocs(collection(db, "shops"));
-    const shops = querySnapshot.docs.map(doc => doc.data() as Shop);
+    const shops = await getShops();
     setShops(shops);
   }
 
