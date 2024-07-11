@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getShops } from './src/lib/firebase';
 import { Shop } from './src/types/shop';
+import { ShopReviewItem } from './src/components/shopReviewItem.';
 
 export default function App() {
   const [shops, setShops] = useState<Shop[]>([]);
@@ -13,20 +14,14 @@ export default function App() {
   const getFirebaseItems = async () => {
     const shops = await getShops();
     setShops(shops);
-  }
+  };
 
-  const shopItems = shops.map((shop, index) => {
-    return (
-      <View style={{ margin: 10 }} key={index.toString()}>
-        <Text>{shop.name}</Text>
-        <Text>{shop.place}</Text>
-      </View>
-    )
-  });
+  const shopItems = shops.map((shop, index) => (
+    <ShopReviewItem shop={shop} key={index.toString()} />
+  ));
 
-  return (
-    <View style={styles.container}>{shopItems}</View>
-  );
+
+  return <View style={styles.container}>{shopItems}</View>
 }
 
 const styles = StyleSheet.create({
