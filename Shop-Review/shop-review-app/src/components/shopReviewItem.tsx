@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Image, Text, Dimensions } from "react-native";
 import { Shop } from "../types/shop";
+import { Stars } from "../components/Stars";
 
 const { width } = Dimensions.get("window");
 const CONTAINER_WIDTH = width / 2;
@@ -17,6 +18,9 @@ export const ShopReviewItem: React.FC<Props> = ({ shop }: Props) => {
       <Image source={{ uri: imageUrl }} style={styles.image} />
       <Text style={styles.nameText}>{name}</Text>
       <Text style={styles.placeText}>{place}</Text>
+      <View style={styles.star}>
+        <Stars score={score} starSize={16} textSize={12} />
+      </View>
     </View>
   );
 };
@@ -39,6 +43,9 @@ const styles = StyleSheet.create({
   placeText: {
     fontSize: 12,
     color: "#888",
-    marginTop: 8
-  }
+    marginTop: 4,
+  },
+  star: {
+    marginTop: 4,
+  },
 });

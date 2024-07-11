@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, FlatList, View, SafeAreaView } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getShops } from './src/lib/firebase';
 import { Shop } from './src/types/shop';
-import { ShopReviewItem } from './src/components/shopReviewItem.';
+import { ShopReviewItem } from './src/components/shopReviewItem';
+
 
 export default function App() {
   const [shops, setShops] = useState<Shop[]>([]);
@@ -21,7 +22,18 @@ export default function App() {
   ));
 
 
-  return <View style={styles.container}>{shopItems}</View>
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={shops}
+        renderItem={({ item }: { item: Shop }) => (
+          <ShopReviewItem shop={item} />
+        )}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={2}
+      />
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
