@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image, Text, Dimensions } from "react-native";
+import { View, StyleSheet, Image, Text, Dimensions, TouchableOpacity } from "react-native";
 import { Shop } from "../types/shop";
 import { Stars } from "../components/Stars";
 
@@ -9,19 +9,20 @@ const PADDING = 16;
 const IMAGE_WIDTH = CONTAINER_WIDTH - PADDING;
 type Props = {
   shop: Shop;
+  onPress: () => void;
 };
 
-export const ShopReviewItem: React.FC<Props> = ({ shop }: Props) => {
+export const ShopReviewItem: React.FC<Props> = ({ shop, onPress }: Props) => {
   const { name, place, imageUrl, score } = shop;
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image source={{ uri: imageUrl }} style={styles.image} />
       <Text style={styles.nameText}>{name}</Text>
       <Text style={styles.placeText}>{place}</Text>
       <View style={styles.star}>
         <Stars score={score} starSize={16} textSize={12} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
