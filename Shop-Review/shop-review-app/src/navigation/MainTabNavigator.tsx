@@ -22,6 +22,7 @@ export const MainTabNavigator = () => {
           tabBarIcon: ({ color, size }) => (
             <Feather name="home" color={color} size={size} />
           ),
+          headerShown: false
         }}
       />
       <Tab.Screen
@@ -32,6 +33,7 @@ export const MainTabNavigator = () => {
           tabBarIcon: ({ color, size }) => (
             <Feather name="user" color={color} size={size} />
           ),
+          headerShown: false
         }}
       />
     </Tab.Navigator>
