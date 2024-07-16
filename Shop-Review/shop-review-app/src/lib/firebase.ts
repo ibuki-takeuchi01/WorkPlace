@@ -1,10 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import "firebase/firestore";
+import { getAuth, signInAnonymously } from "firebase/auth";
 import { collection, getDocs, getFirestore, orderBy, query, runTransaction } from 'firebase/firestore';
 import { Shop } from '../types/shop';
 
-
-// Initialize Firebase
 const firebaseConfig = {
   apiKey: "",
   authDomain: "",
@@ -14,7 +13,6 @@ const firebaseConfig = {
   appId: "",
   measurementId: ""
 };
-
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -29,5 +27,9 @@ export const getShops = async () => {
     console.log(err);
     return [];
   }
+};
 
+export const signin = async () => {
+  const auth = getAuth();
+  const user = signInAnonymously(auth);
 }
