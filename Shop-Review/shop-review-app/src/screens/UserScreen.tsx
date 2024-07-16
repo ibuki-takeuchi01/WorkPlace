@@ -9,7 +9,7 @@ type Props = {
   route: RouteProp<RootStackParamList, "User">;
 };
 
-export const UserScreen: React.FC<any> = ({ navigation, route }: any) => {
+export const UserScreen: React.FC<any> = ({ navigation, route }: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text>User Screen</Text>
