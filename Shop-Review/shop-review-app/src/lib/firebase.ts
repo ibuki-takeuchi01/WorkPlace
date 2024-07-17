@@ -1,8 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";
-import { collection, getDocs, getFirestore, orderBy, query, runTransaction } from 'firebase/firestore';
+import { collection, getDocs, getFirestore, orderBy, query, doc, getDoc, setDoc } from 'firebase/firestore';
 import { Shop } from '../types/shop';
+import { initialUser, User } from '../types/user';
 
 const firebaseConfig = {
   apiKey: "",
@@ -31,5 +32,20 @@ export const getShops = async () => {
 
 export const signin = async () => {
   const auth = getAuth();
-  const user = signInAnonymously(auth);
+  const userCredintial = signInAnonymously(auth);
+  const { uid } = (await userCredintial).user
+  const docRef = doc(db, "users", uid);
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists) {
+    await setDoc(docRef, initialUser);
+    return {
+      ...initialUser,
+      id: uid
+    } as User
+  } else {
+    return {
+      id: uid,
+      ...docSnap.data()
+    } as User
+  }
 }
