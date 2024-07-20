@@ -49,3 +49,10 @@ export const signin = async () => {
     } as User
   }
 }
+
+export const updateUser = async (userId: string | undefined, params: any => {
+  if (userId == undefined) return;
+  const db = getFirestore();
+  const docRef = doc(db, "users", userId);
+  await setDoc(docRef, params);
+}
