@@ -13,7 +13,6 @@ function App() {
 
     const result = await axios.get(apiUrl);
     setCharacters(result.data.characters);
-    console.log(result);
   };
 
   return (
@@ -30,6 +29,19 @@ function App() {
                 alt='character'
                 className='card-image'
               />
+              <div className='card-content'>
+                <h3 className='card-title'>
+                  {character.name}
+                </h3>
+                <p className='card-description'>
+                  {character.debut?.appearsIn ?? 'なし'}
+                </p>
+                <div className='card-footer'>
+                  <span className='affiliation'>
+                    {character.personal?.affiliation ?? 'なし'}
+                  </span>
+                </div>
+              </div>
             </div>;
           })}
         </div>
