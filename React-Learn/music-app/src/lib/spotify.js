@@ -24,7 +24,7 @@ class SpotifyClient {
     const response = await axios.get('https://api.spotify.com/v1/playlists/37i9dQZF1DX9vYRBO9gjDe/tracks', {
       headers: { Authorization: "Bearer " + this.token },
     });
-    console.log(response.data);
+    return response.data;
   }
 }
 
