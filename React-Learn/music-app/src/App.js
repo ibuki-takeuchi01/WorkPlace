@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { SongList } from "./components/SongList";
 import spotify from "./lib/spotify";
 import { Player } from "./components/Player";
+import { SearchInput } from "./components/SearchInput";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +59,7 @@ export default function App() {
         <header className="flex justify-between items-center mb-10">
           <h1 className="text-4xl font-bold">Music App</h1>
         </header>
+        <SearchInput />
         <section>
           <h2 className="text-2xl font-semibold mb-5">Popular Songs</h2>
           <SongList
