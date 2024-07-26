@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SongList } from "./components/SongList";
 import spotify from "./lib/spotify";
+import { Player } from "./components/Player";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -45,6 +46,7 @@ export default function App() {
           />
         </section>
       </main>
+      <Player />
       <audio ref={audioRef} />
     </div>
   );
