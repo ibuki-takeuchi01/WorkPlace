@@ -3,6 +3,7 @@ import { SongList } from "./components/SongList";
 import spotify from "./lib/spotify";
 import { Player } from "./components/Player";
 import { SearchInput } from "./components/SearchInput";
+import { Pagination } from "./components/Pagination";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -81,6 +82,7 @@ export default function App() {
             songs={isSearchedResult ? searchedSongs : popularSongs}
             onSongSelected={handleSongSelected}
           />
+          {isSearchedResult && <Pagination />}
         </section>
       </main>
       {selectedSong != null && (
