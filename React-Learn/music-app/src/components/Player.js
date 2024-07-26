@@ -1,4 +1,4 @@
-import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlayCircle, faStopCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export function Player(props) {
@@ -7,20 +7,19 @@ export function Player(props) {
       <div className="grid grid-cols-3">
         <div className="flex items-center">
           <img
-            src={
-              'https://i.scdn.co/image/ab67616d0000b2738b7a8c1322028d45a8355f7a'
-            }
+            src={props.song.album.images[0].url}
             alt="thumbnail"
             className="rounded-full mr-3 h-[50px] w-[50px]"
           />
           <div>
-            <p className="text-sm font-semibold">Song Name</p>
-            <p className="text-xs text-gray-400">Artist</p>
+            <p className="text-sm font-semibold">{props.song.name}</p>
+            <p className="text-xs text-gray-400">{props.song.artists[0].name}</p>
           </div>
         </div>
         <div className="flex items-center justify-center">
           <FontAwesomeIcon
-            icon={faPlayCircle}
+            onClick={props.onButtonClick}
+            icon={props.isPlay ? faStopCircle : faPlayCircle}
             className="text-white text-3xl mx-2 h-[40px] w-[40px] cursor-pointer"
           />
         </div>

@@ -27,8 +27,25 @@ export default function App() {
   const handleSongSelected = async (song) => {
     setSelectedSong(song);
     audioRef.current.src = song.preview_url;
+    playSong();
+  };
+
+  const playSong = () => {
     audioRef.current.play();
-    setIsLoading(true);
+    setIsPlay(true);
+  };
+
+  const pauseSong = () => {
+    audioRef.current.pause();
+    setIsPlay(false);
+  }
+
+  const toggleSong = () => {
+    if (isPlay) {
+      pauseSong();
+    } else {
+      playSong();
+    }
   }
 
   return (
@@ -46,7 +63,13 @@ export default function App() {
           />
         </section>
       </main>
-      <Player />
+      {selectedSong != null && (
+        <Player
+          song={selectedSong}
+          isPlay={isPlay}
+          onButtonClick={toggleSong}
+        />
+      )}
       <audio ref={audioRef} />
     </div>
   );
