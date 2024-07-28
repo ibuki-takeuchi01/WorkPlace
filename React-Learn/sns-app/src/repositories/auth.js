@@ -33,7 +33,7 @@ export const authRepository = {
 
     return {
       ...data.session.user,
-      userName: data.session.user.app_metadata.name,
+      userName: data.session.user.user_metadata.name,
     }
   }
 };
