@@ -12,7 +12,7 @@ export const postRepository = {
 
   async find() {
     const { data, error } = await supabase
-      .from("post_view")
+      .from("posts_view")
       .select("*")
       .order('created_at', { ascending: false });
     if (error != null) throw new Error(error.message);
