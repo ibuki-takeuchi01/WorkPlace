@@ -14,7 +14,7 @@ class OpenaiClient {
       'https://api.openai.com/v1/chat/completions',
       requestData,
       {
-        headears: {
+        headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${this.apiKey}`,
         },
