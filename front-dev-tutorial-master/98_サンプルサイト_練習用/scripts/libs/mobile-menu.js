@@ -8,9 +8,10 @@ class MobileMenu {
     this._addEvent();
   }
 
+  // 2023/10/02更新: _getEventTypeの内容に動画との差異がありますが、こちらの内容で進めてください。
   _getEventType() {
-    const isTouchCapable = "ontouchstart" in window ||
-    (window.DocumentTouch && document instanceof DocumentTouch);
+    // 2023/10/02時点ではwindowにontouchstartがあれば大丈夫です。
+    const isTouchCapable = "ontouchstart" in window;
 
     return isTouchCapable ? "touchstart" : "click";
   }

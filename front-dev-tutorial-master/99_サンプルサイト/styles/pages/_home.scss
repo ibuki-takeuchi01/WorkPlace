@@ -9,13 +9,13 @@
 }
 
 #main-content {
-    position: relative;
-    z-index: 0;
+  position: relative;
+  z-index: 0;
 }
 
 main {
-    position: relative;
-    z-index: -1;
+  position: relative;
+  z-index: -1;
 }
 
 .header {
@@ -65,8 +65,8 @@ main {
     margin: 10px;
 
     @include mq(md) {
-        margin-left: 30px;
-        margin-right: 0;
+      margin-left: 30px;
+      margin-right: 0;
     }
 
     & > a {
@@ -77,17 +77,18 @@ main {
   }
 
   & .logo {
-    font-size: 35px;
     justify-content: center;
 
     @include mq(md) {
+      // 2023/10 モバイル時font-size: 35px になるように修正
+      font-size: 35px;
       justify-content: flex-start;
     }
   }
 }
 
 .hero {
-    @extend .pb-lg;
+  @extend .pb-lg;
 }
 
 .travel {
@@ -384,25 +385,25 @@ main {
 }
 
 .icon {
-    position: relative;
+  position: relative;
 
-    &::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: -20px;
-        width: 1em;
-        height: 1em;
-        transform: translateY(-50%);
-        background-position: center;
-        background-repeat: none;
-        background-size: contain;
-    }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    width: 1em;
+    height: 1em;
+    transform: translateY(-50%);
+    background-position: center;
+    background-repeat: none;
+    background-size: contain;
+  }
 
-    &.twitter::before {
-        background-image: url(../images/twitter.svg);
-    }
-    &.fb::before {
-        background-image: url(../images/facebook.svg);
-    }
+  &.twitter::before {
+    background-image: url(../images/twitter.svg);
+  }
+  &.fb::before {
+    background-image: url(../images/facebook.svg);
+  }
 }

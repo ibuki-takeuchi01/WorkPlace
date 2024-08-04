@@ -12,6 +12,7 @@
   cursor: pointer;
   transition: all 0.3s;
 }
-.btn.float:hover {
-  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+.btn:hover {
+  background-color: black;
+  color: white;
 }/*# sourceMappingURL=style.css.map */
