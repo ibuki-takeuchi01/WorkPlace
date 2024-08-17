@@ -1,3 +1,6 @@
+import TaskDeleteButton from "./TaskDeleteButton/TaskDeleteButton";
+import TaskEditButton from "./TaskEditButton/TaskEditButton"
+
 const TaskCard = () => {
   return (
     <div className="w-64 h-52 p-4 bg-white rounded-md shadow-md flex flex-col justify-between">
@@ -10,8 +13,8 @@ const TaskCard = () => {
         <div className="flex justify-between items-center">
           <div className={`mt-1 text-sm px-2 py-1 w-24 text-center text-white rounded-full shadow-sm ${true ? 'bg-green-500' : 'bg-red-500'}`}>{true ? 'Completed' : 'Incomplete'}</div>
           <div className="flex gap-4">
-            <div>編集</div>
-            <div>削除</div>
+            <TaskEditButton id="1" />
+            <TaskDeleteButton id="1" />
           </div>
         </div>
       </div>
