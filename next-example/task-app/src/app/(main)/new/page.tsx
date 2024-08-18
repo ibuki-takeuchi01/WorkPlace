@@ -6,7 +6,7 @@ const NewPageTask = () => {
       <h2 className="text-center text-2xl font-bold">Create New Task</h2>
       <NewTaskForm />
     </div>
-  )
+  );
 }
 
 export default NewPageTask
