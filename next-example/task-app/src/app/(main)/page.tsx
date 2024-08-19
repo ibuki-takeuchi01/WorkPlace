@@ -1,4 +1,4 @@
-import TaskCard from "@/components/SideMenu/TaskCard/TaskCard";
+import TaskCard from "@/components/TaskCard/TaskCard";
 import { TaskDocument } from "@/models/task";
 import Link from "next/link";
 import { MdAddTask } from "react-icons/md";
@@ -28,7 +28,7 @@ export default async function MainPage() {
         </Link>
       </header>
       <div className="mt-8 flex flex-wrap gap-4">
-        <TaskCard />
+        {allTasks.map((task) => <TaskCard key={task._id} task={task} />)}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import TaskCard from '@/components/SideMenu/TaskCard/TaskCard';
+import TaskCard from '@/components/TaskCard/TaskCard';
 import React from 'react'
 
 const ExpiredTaskPage = () => {
