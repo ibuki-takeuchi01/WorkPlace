@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export const connectDb = async () => {
   try {
@@ -7,4 +7,4 @@ export const connectDb = async () => {
     console.log('DB接続に失敗しました');
     throw new Error();
   }
-}
+};
