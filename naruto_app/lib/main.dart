@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:naruto_app/modules/characters/character.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,7 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _fetchCharacters() async {
     final response = await Dio().get(_apiUrl);
-    print(response);
+    final List<dynamic> data = response.data["characters"];
+    final characters = data.map((data) => Character.fromJson(data)).toList();
+    print(characters[0].images);
   }
 
   @override
