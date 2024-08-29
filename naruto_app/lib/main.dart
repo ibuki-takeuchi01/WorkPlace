@@ -27,7 +27,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _apiUrl = "https://narutodb.xyz/api/character";
+  final _limit = 15;
   List<Character> _characters = [];
+  int _page = 1;
 
   @override
   void initState() {
@@ -36,10 +38,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _fetchCharacters() async {
-    final response = await Dio().get(_apiUrl);
+    final response = await Dio()
+        .get(_apiUrl, queryParameters: {"page": _page, "limit": _limit});
     final List<dynamic> data = response.data["characters"];
     setState(() {
-      _characters = data.map((data) => Character.fromJson(data)).toList();
+      _characters = [
+        ..._characters,
+        ...data.map((data) => Character.fromJson(data))
+      ];
+      _page++;
     });
   }
 
