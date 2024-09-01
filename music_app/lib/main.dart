@@ -4,8 +4,9 @@ import 'package:music_app/lib/spotify.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
+  await setupSpotify();
   runApp(const MyApp());
-  getToken();
+  spotify.test();
 }
 
 class MyApp extends StatelessWidget {
