@@ -12,7 +12,7 @@ class SpotifyClient {
   static Dio dio = Dio();
 
   static Future<SpotifyClient> initialize() async {
-    Response response = await Dio().post(
+    Response response = await dio.post(
       "https://accounts.spotify.com/api/token",
       data: {
         "grant_type": "client_credentials",
@@ -28,7 +28,13 @@ class SpotifyClient {
     return spotify;
   }
 
-  void test() {
-    print(token);
+  dynamic getPopularSongs() async {
+    Response response = await dio.get(
+      "https://api.spotify.com/v1/playlists/37i9dQZF1DX9vYRBO9gjDe/tracks",
+      options: Options(
+        headers: {"Authorization": "Bearer $token"},
+      ),
+    );
+    return response.data["items"].map((item) => item["track"]);
   }
 }
