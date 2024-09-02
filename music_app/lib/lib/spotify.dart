@@ -37,11 +37,11 @@ class SpotifyClient {
       ),
     );
     return response.data["items"].map<Song>((item) {
-      final song = item["truck"];
+      final song = item["track"];
       return Song.fromJson({
         "name": song["name"],
         "artistName": song["artists"][0]["name"],
-        "album": song["album"]["images"][0]["url"],
+        "albumImageUrl": song["album"]["images"][0]["url"],
         "previewUrl": song["preview_url"],
       });
     }).toList();
