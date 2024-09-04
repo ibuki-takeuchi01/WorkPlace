@@ -46,4 +46,24 @@ class SpotifyClient {
       });
     }).toList();
   }
+
+  Future<List<Song>> searchSongs(String keyword) async {
+    Response response = await dio.get("https://api.spotify.com/v1/search",
+        options: Options(
+          headers: {"Authorization": "Bearer $token"},
+        ),
+        queryParameters: {
+          "q": keyword,
+          "type": "track",
+        });
+
+    return response.data["tracks"]["items"].map<Song>((song) {
+      return Song.fromJson({
+        "name": song["name"],
+        "artistName": song["artists"][0]["name"],
+        "albumImageUrl": song["album"]["images"][0]["url"],
+        "previewUrl": song["preview_url"],
+      });
+    }).toList();
+  }
 }
