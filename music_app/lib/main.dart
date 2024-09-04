@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:music_app/lib/spotify.dart';
 import 'package:music_app/modules/songs/song.dart';
+import 'package:music_app/widgets/player.dart';
 import 'package:music_app/widgets/song_card.dart';
 
 void main() async {
@@ -51,7 +52,18 @@ class _MusicAppState extends State<MusicApp> {
     });
   }
 
+  void _stop() {
+    _audioPlayer.stop();
+    setState(() {
+      _isPlay = false;
+    });
+  }
+
   void _handleSongSelected(Song song) {
+    if (song.previewUrl == null) {
+      _stop();
+      return;
+    }
     setState(() {
       _selectedSong = song;
     });
@@ -147,6 +159,16 @@ class _MusicAppState extends State<MusicApp> {
                             )),
                 ],
               ),
+              if (_selectedSong != null)
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: IntrinsicHeight(
+                      child: Player(
+                        song: _selectedSong!,
+                        isPlay: _isPlay,
+                        onButtonTab: () => _isPlay ? _stop() : _play(),
+                      ),
+                    ))
             ],
           ),
         ),
