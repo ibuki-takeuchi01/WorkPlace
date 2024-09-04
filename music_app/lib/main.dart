@@ -30,6 +30,8 @@ class _MusicAppState extends State<MusicApp> {
   bool _isInitialized = false;
   Song? _selectedSong;
   bool _isPlay = false;
+  String _keyword = "";
+  List<Song>? _searchedSongs;
 
   @override
   void initState() {
@@ -70,8 +72,22 @@ class _MusicAppState extends State<MusicApp> {
     _play();
   }
 
+  void _handleTextFieldChanged(String value) {
+    setState(() {
+      _keyword = value;
+    });
+  }
+
+  void _searchSongs() async {
+    final songs = await spotify.searchSongs(_keyword);
+    setState(() {
+      _searchedSongs = songs;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final songs = _searchedSongs ?? _popularSongs;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF0E0E10),
@@ -118,6 +134,8 @@ class _MusicAppState extends State<MusicApp> {
                                 hintStyle: TextStyle(color: Colors.white70),
                                 border: InputBorder.none,
                               ),
+                              onChanged: _handleTextFieldChanged,
+                              onEditingComplete: () => _searchSongs(),
                             ),
                           ),
                         ],
@@ -147,7 +165,7 @@ class _MusicAppState extends State<MusicApp> {
                                       (_popularSongs.length / 2).round(),
                                       (int index) => auto,
                                     ),
-                                    children: _popularSongs
+                                    children: songs
                                         .map((song) => SongCard(
                                               song: song,
                                               onTap: _handleSongSelected,
