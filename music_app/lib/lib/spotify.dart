@@ -47,7 +47,11 @@ class SpotifyClient {
     }).toList();
   }
 
-  Future<List<Song>> searchSongs(String keyword) async {
+  Future<List<Song>> searchSongs({
+    required String keyword,
+    required int limit,
+    required int offset,
+  }) async {
     Response response = await dio.get("https://api.spotify.com/v1/search",
         options: Options(
           headers: {"Authorization": "Bearer $token"},
@@ -55,6 +59,8 @@ class SpotifyClient {
         queryParameters: {
           "q": keyword,
           "type": "track",
+          "limit": limit,
+          "offset": offset,
         });
 
     return response.data["tracks"]["items"].map<Song>((song) {

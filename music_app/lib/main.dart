@@ -26,12 +26,16 @@ class MusicApp extends StatefulWidget {
 
 class _MusicAppState extends State<MusicApp> {
   final AudioPlayer _audioPlayer = AudioPlayer();
+  final ScrollController _controller = ScrollController();
+  final _limit = 20;
   List<Song> _popularSongs = [];
   bool _isInitialized = false;
   Song? _selectedSong;
   bool _isPlay = false;
   String _keyword = "";
   List<Song>? _searchedSongs;
+  int page = 1;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -40,6 +44,13 @@ class _MusicAppState extends State<MusicApp> {
   }
 
   void _initialize() async {
+    _controller.addListener(() {
+      if (_controller.position.maxScrollExtent - 100 < _controller.offset &&
+          _searchedSongs != null) {
+        _searchSongs();
+      }
+    });
+
     final songs = await spotify.getPopularSongs();
     setState(() {
       _popularSongs = songs;
@@ -79,9 +90,21 @@ class _MusicAppState extends State<MusicApp> {
   }
 
   void _searchSongs() async {
-    final songs = await spotify.searchSongs(_keyword);
+    if (_isLoading) return;
     setState(() {
-      _searchedSongs = songs;
+      _isLoading = true;
+    });
+    final offset = page * _limit;
+    final songs = await spotify.searchSongs(
+      keyword: _keyword,
+      offset: offset,
+      limit: _limit,
+    );
+    setState(() {
+      page++;
+      _searchedSongs =
+          _searchedSongs != null ? [..._searchedSongs!, ...songs] : songs;
+      _isLoading = false;
     });
   }
 
@@ -156,6 +179,7 @@ class _MusicAppState extends State<MusicApp> {
                       child: !_isInitialized
                           ? Container()
                           : CustomScrollView(
+                              controller: _controller,
                               slivers: [
                                 SliverToBoxAdapter(
                                   child: LayoutGrid(
