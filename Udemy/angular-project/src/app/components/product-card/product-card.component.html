@@ -15,12 +15,28 @@
     <div class="d-flex justify-content-between mb-0">
       <div class="text-warning">
         <!-- Display rating stars -->
-        <i [class]="product.rating > 0 ? ' fa fa-star' : 'fa fa-star-o'"></i>
-        <i [class]="product.rating > 1 ? ' fa fa-star' : 'fa fa-star-o'"></i>
-        <i [class]="product.rating > 2 ? ' fa fa-star' : 'fa fa-star-o'"></i>
-        <i [class]="product.rating > 3 ? ' fa fa-star' : 'fa fa-star-o'"></i>
-        <i [class]="product.rating > 4 ? ' fa fa-star' : 'fa fa-star-o'"></i>
+        <i [class]="product.rating > 0 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+        <i [class]="product.rating > 1 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+        <i [class]="product.rating > 2 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+        <i [class]="product.rating > 3 ? 'fa fa-star' : 'fa fa-star-o'"></i>
+        <i [class]="product.rating > 4 ? 'fa fa-star' : 'fa fa-star-o'"></i>
       </div>
+      <!-- Display 'Out of Stock' button -->
+      <button
+        *ngIf="product.availableQty === 0"
+        type="button"
+        class="btn btn-secondary"
+      >
+        在庫切れ
+      </button>
+      <!-- Display 'Add to Cart' button -->
+      <button
+        *ngIf="product.availableQty > 0"
+        type="button"
+        class="btn btn-success"
+      >
+        カート追加
+      </button>
     </div>
   </div>
 </div>
