@@ -5,4 +5,11 @@
     class="card-img-top"
     [alt]="product.productName"
   />
+  <div class="card-body pb-1">
+    <!-- Display product name and price -->
+    <div class="d-flex justify-content-between mb-3">
+      <h5 class="mb-0">{{ product.productName }}</h5>
+      <h5 class="text-dark mb-0">{{ product.price }}円</h5>
+    </div>
+  </div>
 </div>
