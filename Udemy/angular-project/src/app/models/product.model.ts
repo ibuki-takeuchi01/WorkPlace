@@ -3,7 +3,7 @@ export interface Product {
   rating: number;
   productName: string;
   category: string;
-  price: number;
+  price: string;
   isSale: boolean;
   releaseDate: string;
   availableQty: number;
