@@ -12,7 +12,7 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 })
 export class HomeComponent {
 
-  public categoryList: string[] = ['冷蔵庫', 'トイレ', 'キッチン', '掃除機', '空調機器', 'テレビ', 'その他'];
+  public categoryList: string[] = ['冷蔵庫', '洗濯機', 'キッチン', '掃除機', '空調機器', 'テレビ', 'その他'];
   public productList: Product[] = [
     { productId: 1, rating: 4, productName: 'French Door Fridge', category: '冷蔵庫', price: "222,000", isSale: false, releaseDate: '2024-02-01', availableQty: 3, imageUrl: 'assets/images/1.jpg' },
     { productId: 2, rating: 5, productName: 'Side-by-Side Fridge', category: '冷蔵庫', price: "170,000", isSale: false, releaseDate: '2023-03-22', availableQty: 0, imageUrl: 'assets/images/2.jpg' },
@@ -31,8 +31,12 @@ export class HomeComponent {
     { productId: 15, rating: 5, productName: 'Compact TV', category: 'テレビ', price: "30,000", isSale: true, releaseDate: '2023-01-10', availableQty: 5, imageUrl: 'assets/images/15.jpg' }
   ];
 
+  public filteredProducts: Product[] = [];
+  public selectedCategory: string = '';
+
   constructor() {
     this.productList = this.markNewProducts(this.productList);
+    this.filteredProducts = this.productList;
   }
 
   public trackByIndex(index: number, item: any): number {
@@ -49,5 +53,15 @@ export class HomeComponent {
       product.isNew = releaseDate > threeMonthAgo;
       return product;
     });
+  }
+
+  public filterCategory(category: string): void {
+    if (this.selectedCategory === category) {
+      this.selectedCategory = '';
+      this.filteredProducts = this.productList;
+    } else {
+      this.selectedCategory = category;
+      this.filteredProducts = this.productList.filter(product => product.category === category);
+    }
   }
 }

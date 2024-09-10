@@ -12,7 +12,12 @@
             let i = index;
             trackBy: trackByIndex
           "
-          class="btn btn-outline-primary mx-2"
+          [class]="
+            selectedCategory === item
+              ? 'btn btn-primary mx-2'
+              : 'btn btn-outline-primary mx-2'
+          "
+          (click)="filterCategory(item)"
         >
           {{ item }}
         </button>
@@ -23,7 +28,7 @@
         <ng-container>
           <div
             *ngFor="
-              let item of productList;
+              let item of filteredProducts;
               let i = index;
               trackBy: trackByIndex
             "
