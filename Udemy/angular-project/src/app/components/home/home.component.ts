@@ -31,7 +31,23 @@ export class HomeComponent {
     { productId: 15, rating: 5, productName: 'Compact TV', category: 'テレビ', price: "30,000", isSale: true, releaseDate: '2023-01-10', availableQty: 5, imageUrl: 'assets/images/15.jpg' }
   ];
 
+  constructor() {
+    this.productList = this.markNewProducts(this.productList);
+  }
+
   public trackByIndex(index: number, item: any): number {
     return index;
+  }
+
+  private markNewProducts(productList: Product[]): Product[] {
+    const referenceDate = new Date('2024-04-01');
+    const threeMonthAgo = new Date(referenceDate);
+    threeMonthAgo.setMonth(threeMonthAgo.getMonth() - 3);
+
+    return productList.map(product => {
+      const releaseDate = new Date(product.releaseDate);
+      product.isNew = releaseDate > threeMonthAgo;
+      return product;
+    });
   }
 }

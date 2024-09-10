@@ -7,6 +7,14 @@
   >
     <p class="text-white mb-0 small">Sale</p>
   </div>
+  <!-- Display 'New' badge if the product is new -->
+  <div
+    *ngIf="product.isNew"
+    class="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
+    style="width: 35px; height: 35px; position: absolute; left: 0"
+  >
+    <p class="text-white mb-0 small">New</p>
+  </div>
   <!-- Display product image -->
   <img
     [src]="product.imageUrl"
