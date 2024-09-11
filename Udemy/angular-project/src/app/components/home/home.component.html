@@ -33,6 +33,17 @@
             {{ filteredProducts.length }}商品見つかりました。
           </p>
         </div>
+        <!-- Sorting options -->
+        <div class="d-flex align-items-center">
+          <select
+            id="sortOptions"
+            class="form-select"
+            (change)="sortProducts($event)"
+          >
+            <option value="default">表示順: おすすめ</option>
+            <option value="priceAsc">表示順: 価格:安い順</option>
+          </select>
+        </div>
       </div>
       <div class="row">
         <!-- Display message if no products are found -->
