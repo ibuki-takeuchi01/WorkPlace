@@ -22,10 +22,27 @@
           {{ item }}
         </button>
       </div>
-
+      <!-- Display the number of items and sorting options if a category is selected -->
+      <div
+        class="d-flex justify-content-between align-items-center mb-4"
+        *ngIf="selectedCategory"
+      >
+        <!-- Display the number of items found -->
+        <div class="col-3">
+          <p class="text-left mb-0">
+            {{ filteredProducts.length }}商品見つかりました。
+          </p>
+        </div>
+      </div>
       <div class="row">
+        <!-- Display message if no products are found -->
+        <ng-container *ngIf="filteredProducts.length === 0">
+          <div class="col-md-12 text-center">
+            <h6>このカテゴリーの商品が見つかりませんでした。</h6>
+          </div>
+        </ng-container>
         <!-- Display product cards if products are found -->
-        <ng-container>
+        <ng-container *ngIf="filteredProducts.length > 0">
           <div
             *ngFor="
               let item of filteredProducts;
