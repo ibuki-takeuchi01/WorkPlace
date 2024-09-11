@@ -76,6 +76,9 @@ export class HomeComponent {
         case 'priceDesc':
           this.filteredProducts.sort((a, b) => b.price - a.price);
           break;
+        case 'ratingDesc':
+          this.filteredProducts.sort((a, b) => b.rating - a.rating);
+          break;
         default:
           this.filteredProducts.sort((a, b) => a.productId - b.productId);
           break;
