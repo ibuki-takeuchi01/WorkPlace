@@ -50,6 +50,7 @@
         *ngIf="product.availableQty > 0"
         type="button"
         class="btn btn-success"
+        (click)="addToCart(product)"
       >
         カート追加
       </button>
