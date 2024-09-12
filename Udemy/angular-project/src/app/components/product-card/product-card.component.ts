@@ -1,4 +1,4 @@
-import { Component, Input, Inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { Product } from '../../models/product.model';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
@@ -13,7 +13,7 @@ import { ProductService } from '../../services/product.service';
 export class ProductCardComponent {
   @Input() product!: Product;
 
-  private productService = Inject(ProductService);
+  private productService = inject(ProductService);
   public addToCart(addedProduct: Product): void {
     this.productService.onAddToCart$.next(addedProduct);
   }
