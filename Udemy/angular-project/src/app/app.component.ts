@@ -38,4 +38,8 @@ export class AppComponent {
   public trackByIndex(index: number, item: Product): number {
     return index;
   }
+
+  public removeProduct(index: number): void {
+    this.cartItems.splice(index, 1);
+  }
 }
