@@ -35,7 +35,7 @@
         <div class="row">
           <!-- Cart Header -->
           <div class="col-8">
-            <h6>Cart Items</h6>
+            <h6>カート商品</h6>
           </div>
           <div class="col-4 text-end">
             <i class="fa fa-close p-2" (click)="showCart()"></i>
@@ -87,9 +87,11 @@
             </tr>
             <tr>
               <td colspan="2" class="align-middle text-left">
-                <strong>Price</strong>
+                <strong>価格</strong>
               </td>
-              <td colspan="2" class="align-middle text-right">$2200</td>
+              <td colspan="2" class="align-middle text-right">
+                {{ getTotalPrice() }}円
+              </td>
             </tr>
           </tbody>
         </table>

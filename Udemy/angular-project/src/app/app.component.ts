@@ -46,4 +46,8 @@ export class AppComponent {
   public getTotalQuantity(): number {
     return this.cartItems.length;
   }
+
+  public getTotalPrice(): number {
+    return this.cartItems.reduce((total, item) => total + Number(item.price), 0);
+  }
 }
