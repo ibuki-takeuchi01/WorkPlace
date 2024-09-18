@@ -1,6 +1,8 @@
+import React from 'react';
 import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import HomeIcon from '@mui/icons-material/Home';
+import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
+
 
 interface SideBarProps {
   drawerWidth: number,
@@ -8,32 +10,29 @@ interface SideBarProps {
   handleDrawerToggle: () => void,
 }
 
+interface MenuItem {
+  text: string,
+  path: string,
+  icon: React.ComponentType,
+}
+
 const SideBar = ({ drawerWidth, mobileOpen, handleDrawerToggle }: SideBarProps) => {
+  const menuItems: MenuItem[] = [
+    { text: "Home", path: "/", icon: HomeIcon },
+    { text: "Report", path: "/report", icon: SignalCellularAltIcon }
+  ]
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
+        {menuItems.map((item, index) => (
+          <ListItem key={index} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <item.icon />
               </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
         ))}
