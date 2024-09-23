@@ -4,7 +4,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import { NavLink } from 'react-router-dom';
 
-
 interface SideBarProps {
   drawerWidth: number,
   mobileOpen: boolean,
