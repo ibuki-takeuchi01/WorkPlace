@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { Transaction } from "./types/index";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase"
+import { format } from "date-fns";
+import { formatMonth } from "./utils/formatting";
 
 function App() {
 
@@ -18,6 +20,7 @@ function App() {
     return typeof error === "object" && error !== null && "code" in error
   }
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [currentMont, setCurrentMonth] = useState(new Date());
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -41,13 +44,19 @@ function App() {
     fetchTransactions();
   }, [])
 
+  const monthlyTransactions = transactions.filter((transaction) => {
+    return transaction.date.startsWith(formatMonth(currentMont));
+  });
+
+  console.log(monthlyTransactions);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
         <Routes>
           <Route path="/" element={<AppLayout />}>
-            <Route index element={<Home />} />
+            <Route index element={<Home monthlyTransactions={monthlyTransactions} />} />
             <Route path="/report" element={<Report />} />
             <Route path="*" element={<NoMatch />} />
           </Route>
