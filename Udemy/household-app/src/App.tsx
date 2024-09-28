@@ -48,15 +48,13 @@ function App() {
     return transaction.date.startsWith(formatMonth(currentMont));
   });
 
-  console.log(monthlyTransactions);
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
         <Routes>
           <Route path="/" element={<AppLayout />}>
-            <Route index element={<Home monthlyTransactions={monthlyTransactions} />} />
+            <Route index element={<Home monthlyTransactions={monthlyTransactions} setCurrentMonth={setCurrentMonth} />} />
             <Route path="/report" element={<Report />} />
             <Route path="*" element={<NoMatch />} />
           </Route>
