@@ -18,6 +18,7 @@ import FastfoodIcon from "@mui/icons-material/Fastfood";
 import DailySummary from "./DailySummary";
 import { Transaction } from "../types";
 import { formatCurrency } from "../utils/formatting";
+import IconComponents from "./common/IconComponents";
 
 interface TransactionMenuProps {
   dailyTransactions: Transaction[];
@@ -71,7 +72,8 @@ const TransactionMenu = ({ dailyTransactions, currentDay }: TransactionMenuProps
                   <Card
                     sx={{
                       width: "100%",
-                      backgroundColor: (theme) =>
+                      backgroundColor: transaction.type === "income" ? (theme) =>
+                        theme.palette.incomeColor.light : (theme) =>
                         theme.palette.expenseColor.light,
                     }}
                   >
@@ -85,7 +87,7 @@ const TransactionMenu = ({ dailyTransactions, currentDay }: TransactionMenuProps
                         >
                           <Grid2 size={{ xs: 1 }}>
                             {/* icon */}
-                            <FastfoodIcon />
+                            {IconComponents[transaction.category]}
                           </Grid2>
                           <Grid2 size={{ xs: 2.5 }}>
                             <Typography
