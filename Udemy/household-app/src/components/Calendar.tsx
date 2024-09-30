@@ -7,15 +7,25 @@ import { DatesSetArg, EventContentArg } from '@fullcalendar/core'
 import { Balance, CalendarContent, Transaction } from '../types'
 import { calculateDailyBalances } from '../utils/financeCalculations'
 import { formatCurrency } from '../utils/formatting'
+import { theme } from '../theme/theme';
+import { useTheme } from '@mui/material';
 
 interface CalendarProps {
   monthlyTransactions: Transaction[],
   setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>
   setCurrentDay: React.Dispatch<React.SetStateAction<string>>
+  currentDay: string
 }
 
-const Calendar = ({ monthlyTransactions, setCurrentMonth, setCurrentDay }: CalendarProps) => {
+const Calendar = ({ monthlyTransactions, setCurrentMonth, setCurrentDay, currentDay }: CalendarProps) => {
+  const theme = useTheme();
   const dailyBalances = calculateDailyBalances(monthlyTransactions);
+
+  const setBackgroundColorEvent = {
+    start: currentDay,
+    display: "background",
+    backgroundColor: theme.palette.incomeColor.light,
+  }
 
   const renderEventContent = (eventInfo: EventContentArg) => {
     return (
@@ -61,7 +71,7 @@ const Calendar = ({ monthlyTransactions, setCurrentMonth, setCurrentDay }: Calen
       locale={jaLocale}
       plugins={[dayGridPlugin, interactionPlugin]}
       initialView='dayGridMonth'
-      events={calendarEvents}
+      events={[...calendarEvents, setBackgroundColorEvent]}
       eventContent={renderEventContent}
       datesSet={handleDateSet}
       dateClick={handleDateClick}
