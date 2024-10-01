@@ -7,8 +7,8 @@ import { DatesSetArg, EventContentArg } from '@fullcalendar/core'
 import { Balance, CalendarContent, Transaction } from '../types'
 import { calculateDailyBalances } from '../utils/financeCalculations'
 import { formatCurrency } from '../utils/formatting'
-import { theme } from '../theme/theme';
 import { useTheme } from '@mui/material';
+import { format, isSameMonth } from 'date-fns';
 
 interface CalendarProps {
   monthlyTransactions: Transaction[],
@@ -59,9 +59,18 @@ const Calendar = ({ monthlyTransactions, setCurrentMonth, setCurrentDay, current
   const calendarEvents = createCalendarEvents(dailyBalances);
 
   const handleDateSet = (dateSetInfo: DatesSetArg) => {
-    setCurrentMonth(dateSetInfo.view.currentStart)
+    const currentMonth = dateSetInfo.view.currentStart;
+    setCurrentMonth(currentMonth);
+    const today = format(new Date(), "yyyy-MM-dd");
+    if (isSameMonth(new Date(), currentMonth)) {
+      setCurrentDay(today)
+    }
   }
 
+  /**
+   * 日付クリックイベント
+   * @param dateInfo 日付クリックイベント
+   */
   const handleDateClick = (dateInfo: DateClickArg) => {
     setCurrentDay(dateInfo.dateStr);
   }
