@@ -19,9 +19,11 @@ interface TransactionFormProps {
   currentDay: string
 }
 
+type IncomeExpense = "income" | "expense"
+
 const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: TransactionFormProps) => {
   const formWidth = 320;
-  const { control } = useForm({
+  const { control, setValue } = useForm({
     defaultValues: {
       type: "expense",
       date: currentDay,
@@ -30,6 +32,10 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
       content: "",
     }
   })
+
+  const incomeExpenseToggle = (type: IncomeExpense) => {
+    setValue("type", type);
+  };
 
   return (
     <Box
@@ -73,10 +79,20 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
             control={control}
             render={({ field }) => (
               <ButtonGroup fullWidth>
-                <Button variant={"contained"} color="error">
+                <Button
+                  variant={field.value === "expense" ? "contained" : "outlined"}
+                  color="error"
+                  onClick={() => incomeExpenseToggle("expense")}
+                >
                   支出
                 </Button>
-                <Button>収入</Button>
+                <Button
+                  variant={field.value === "income" ? "contained" : "outlined"}
+                  color="primary"
+                  onClick={() => incomeExpenseToggle("income")}
+                >
+                  収入
+                </Button>
               </ButtonGroup>
             )}
           />
