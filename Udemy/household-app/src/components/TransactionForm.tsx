@@ -9,10 +9,20 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
-import FastfoodIcon from "@mui/icons-material/Fastfood"; //食事アイコン
 import { Controller, useForm } from "react-hook-form";
 import { useEffect } from "react";
+import { ExpenseCategory, IncomeCategory } from "../types";
+import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
+import FastfoodIcon from "@mui/icons-material/Fastfood";
+import DryCleaningIcon from '@mui/icons-material/DryCleaning';
+import OtherHousesIcon from '@mui/icons-material/OtherHouses';
+import GroupIcon from '@mui/icons-material/Group';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import TrainIcon from '@mui/icons-material/Train';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import SavingsIcon from '@mui/icons-material/Savings';
 
 interface TransactionFormProps {
   onCloseForm: () => void;
@@ -20,10 +30,30 @@ interface TransactionFormProps {
   currentDay: string
 }
 
+interface CategoryItem {
+  label: IncomeCategory | ExpenseCategory;
+  icon: JSX.Element;
+}
+
 type IncomeExpense = "income" | "expense"
 
 const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: TransactionFormProps) => {
   const formWidth = 320;
+  const expenseCategories: CategoryItem[] = [
+    { label: "食費", icon: <FastfoodIcon fontSize="small" /> },
+    { label: "日用品", icon: <DryCleaningIcon fontSize="small" /> },
+    { label: "住居費", icon: <OtherHousesIcon fontSize="small" /> },
+    { label: "交際費", icon: <GroupIcon fontSize="small" /> },
+    { label: "娯楽", icon: <SportsEsportsIcon fontSize="small" /> },
+    { label: "交通費", icon: <TrainIcon fontSize="small" /> },
+    { label: "医療費", icon: <MedicalServicesIcon fontSize="small" /> },
+  ]
+  const incomeCategories: CategoryItem[] = [
+    { label: "給与", icon: <AttachMoneyIcon fontSize="small" /> },
+    { label: "ボーナス", icon: <CurrencyExchangeIcon fontSize="small" /> },
+    { label: "その他収入", icon: <SavingsIcon fontSize="small" /> },
+  ]
+
   const { control, setValue, watch } = useForm({
     defaultValues: {
       type: "expense",
