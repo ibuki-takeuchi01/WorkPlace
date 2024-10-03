@@ -12,6 +12,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
 import FastfoodIcon from "@mui/icons-material/Fastfood"; //食事アイコン
 import { Controller, useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 interface TransactionFormProps {
   onCloseForm: () => void;
@@ -23,7 +24,7 @@ type IncomeExpense = "income" | "expense"
 
 const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: TransactionFormProps) => {
   const formWidth = 320;
-  const { control, setValue } = useForm({
+  const { control, setValue, watch } = useForm({
     defaultValues: {
       type: "expense",
       date: currentDay,
@@ -36,6 +37,12 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
   const incomeExpenseToggle = (type: IncomeExpense) => {
     setValue("type", type);
   };
+
+  const currentType = watch("type");
+
+  useEffect(() => {
+    setValue("date", currentDay)
+  }, [currentDay])
 
   return (
     <Box
@@ -143,7 +150,7 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
             )}
           />
           {/* 保存ボタン */}
-          <Button type="submit" variant="contained" color={"primary"} fullWidth>
+          <Button type="submit" variant="contained" color={currentType === "income" ? "primary" : "error"} fullWidth>
             保存
           </Button>
         </Stack>
