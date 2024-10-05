@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ExpenseCategory, IncomeCategory } from "../types";
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
 import FastfoodIcon from "@mui/icons-material/Fastfood";
@@ -54,6 +54,8 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
     { label: "その他収入", icon: <SavingsIcon fontSize="small" /> },
   ]
 
+  const [categories, setCategories] = useState(expenseCategories);
+
   const { control, setValue, watch } = useForm({
     defaultValues: {
       type: "expense",
@@ -69,6 +71,11 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
   };
 
   const currentType = watch("type");
+
+  useEffect(() => {
+    const newCategories = currentType === "expense" ? expenseCategories : incomeCategories;
+    setCategories(newCategories)
+  }, [currentType]);
 
   useEffect(() => {
     setValue("date", currentDay)
@@ -154,12 +161,14 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
             control={control}
             render={({ field }) => (
               <TextField {...field} id="カテゴリ" label="カテゴリ" select>
-                <MenuItem value={"食費"}>
-                  <ListItemIcon>
-                    <FastfoodIcon />
-                  </ListItemIcon>
-                  食費
-                </MenuItem>
+                {categories.map((category) => (
+                  <MenuItem value={category.label}>
+                    <ListItemIcon>
+                      {category.icon}
+                    </ListItemIcon>
+                    {category.label}
+                  </MenuItem>
+                ))}
               </TextField>
             )}
           />
