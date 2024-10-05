@@ -161,8 +161,8 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
             control={control}
             render={({ field }) => (
               <TextField {...field} id="カテゴリ" label="カテゴリ" select>
-                {categories.map((category) => (
-                  <MenuItem value={category.label}>
+                {categories.map((category, index) => (
+                  <MenuItem key={index} value={category.label}>
                     <ListItemIcon>
                       {category.icon}
                     </ListItemIcon>
@@ -177,7 +177,16 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
             name="amount"
             control={control}
             render={({ field }) => (
-              <TextField {...field} label="金額" type="number" />
+              <TextField
+                {...field}
+                value={field.value === 0 ? "" : field.value}
+                onChange={(e) => {
+                  const newValue = parseInt(e.target.value) || 0;
+                  field.onChange(newValue);
+                }}
+                label="金額"
+                type="number"
+              />
             )}
           />
           {/* 内容 */}
