@@ -159,6 +159,8 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
                 InputLabelProps={{
                   shrink: true,
                 }}
+                error={!!errors.date}
+                helperText={errors.date?.message}
               />
             )}
           />
@@ -167,7 +169,10 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
             name="category"
             control={control}
             render={({ field }) => (
-              <TextField {...field} id="カテゴリ" label="カテゴリ" select>
+              <TextField
+                error={!!errors.category}
+                helperText={errors.category?.message}
+                {...field} id="カテゴリ" label="カテゴリ" select>
                 {categories.map((category, index) => (
                   <MenuItem key={index} value={category.label}>
                     <ListItemIcon>
@@ -185,6 +190,8 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
             control={control}
             render={({ field }) => (
               <TextField
+                error={!!errors.amount}
+                helperText={errors.amount?.message}
                 {...field}
                 value={field.value === 0 ? "" : field.value}
                 onChange={(e) => {
@@ -201,7 +208,10 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
             name="content"
             control={control}
             render={({ field }) => (
-              <TextField {...field} label="内容" type="text" />
+              <TextField
+                error={!!errors.content}
+                helperText={errors.content?.message}
+                {...field} label="内容" type="text" />
             )}
           />
           {/* 保存ボタン */}
