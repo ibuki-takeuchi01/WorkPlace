@@ -12,6 +12,7 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { ExpenseCategory, IncomeCategory } from "../types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import DryCleaningIcon from '@mui/icons-material/DryCleaning';
@@ -23,6 +24,7 @@ import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import SavingsIcon from '@mui/icons-material/Savings';
+import { transactionSchema } from "../validations/schema";
 
 interface TransactionFormProps {
   onCloseForm: () => void;
@@ -56,14 +58,15 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
 
   const [categories, setCategories] = useState(expenseCategories);
 
-  const { control, setValue, watch } = useForm({
+  const { control, setValue, watch, formState: { errors }, handleSubmit } = useForm({
     defaultValues: {
       type: "expense",
       date: currentDay,
       amount: 0,
       category: "",
       content: "",
-    }
+    },
+    resolver: zodResolver(transactionSchema),
   })
 
   const incomeExpenseToggle = (type: IncomeExpense) => {
@@ -79,7 +82,11 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
 
   useEffect(() => {
     setValue("date", currentDay)
-  }, [currentDay])
+  }, [currentDay]);
+
+  const onSubmit = (data: any) => {
+    console.log(data)
+  }
 
   return (
     <Box
@@ -115,7 +122,7 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
         </IconButton>
       </Box>
       {/* フォーム要素 */}
-      <Box component={"form"}>
+      <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           {/* 収支切り替えボタン */}
           <Controller
