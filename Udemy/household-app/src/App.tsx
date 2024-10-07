@@ -8,10 +8,10 @@ import { ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Transaction } from "./types/index";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase"
-import { format } from "date-fns";
 import { formatMonth } from "./utils/formatting";
+import { Schema } from "./validations/schema";
 
 function App() {
 
@@ -44,9 +44,24 @@ function App() {
     fetchTransactions();
   }, [])
 
+  /** 1ヶ月分のデータのみ取得 */
   const monthlyTransactions = transactions.filter((transaction) => {
     return transaction.date.startsWith(formatMonth(currentMont));
   });
+
+  /** 取引をFirebaseに保存する処理 */
+  const handleSaveTransaction = async (transaction: Schema) => {
+    try {
+      const docRef = await addDoc(collection(db, "Transactions"), transaction);
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      if (isFireStoreError(error)) {
+        console.error("firebaseエラー:", error);
+      } else {
+        console.error("一般的なエラー:", error);
+      }
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -54,7 +69,12 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<AppLayout />}>
-            <Route index element={<Home monthlyTransactions={monthlyTransactions} setCurrentMonth={setCurrentMonth} />} />
+            <Route index element={
+              <Home
+                monthlyTransactions={monthlyTransactions}
+                setCurrentMonth={setCurrentMonth}
+                onSaveTransaction={handleSaveTransaction}
+              />} />
             <Route path="/report" element={<Report />} />
             <Route path="*" element={<NoMatch />} />
           </Route>

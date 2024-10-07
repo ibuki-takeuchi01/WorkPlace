@@ -1,4 +1,4 @@
-import { date, z } from "zod";
+import { z } from "zod";
 
 export const transactionSchema = z.object({
   type: z.enum(["income", "expense"]),
