@@ -26,9 +26,15 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction }: HomeP
     setIsEntryDrawerOpen(!isEntryDrawerOpen)
   };
 
+  /** フォームの開閉処理 */
   const handleAddTransactionForm = () => {
     setIsEntryDrawerOpen(!isEntryDrawerOpen)
   };
+
+  /** 取引が選択された時の処理 */
+  const handleSelectTransaction = (transaction: Transaction) => {
+    setIsEntryDrawerOpen(true)
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -48,6 +54,7 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction }: HomeP
           dailyTransactions={dailyTransactions}
           currentDay={currentDay}
           onHandleAddTransactionForm={handleAddTransactionForm}
+          onSelectTransaction={handleSelectTransaction}
         />
         <TransactionForm
           onCloseForm={closeForm}
