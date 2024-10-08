@@ -15,7 +15,7 @@ import { Schema } from "./validations/schema";
 
 function App() {
 
-  // Firestoreがエラーかどうか判定する型ガード
+  /** Firestoreがエラーかどうか判定する型ガード */
   function isFireStoreError(error: unknown): error is { code: string, message: string } {
     return typeof error === "object" && error !== null && "code" in error
   }
@@ -54,6 +54,16 @@ function App() {
     try {
       const docRef = await addDoc(collection(db, "Transactions"), transaction);
       console.log("Document written with ID: ", docRef.id);
+
+      const newTransaction = {
+        id: docRef.id,
+        ...transaction,
+      } as Transaction;
+
+      setTransactions(prevTransaction =>
+        [...prevTransaction,
+          newTransaction
+        ])
     } catch (error) {
       if (isFireStoreError(error)) {
         console.error("firebaseエラー:", error);

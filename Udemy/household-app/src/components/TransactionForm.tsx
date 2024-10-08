@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { ExpenseCategory, IncomeCategory } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,12 +24,13 @@ import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import SavingsIcon from '@mui/icons-material/Savings';
-import { transactionSchema } from "../validations/schema";
+import { Schema, transactionSchema } from "../validations/schema";
 
 interface TransactionFormProps {
   onCloseForm: () => void;
   isEntryDrawerOpen: boolean;
-  currentDay: string
+  currentDay: string;
+  onSaveTransaction: (transaction: Schema) => Promise<void>;
 }
 
 interface CategoryItem {
@@ -39,7 +40,7 @@ interface CategoryItem {
 
 type IncomeExpense = "income" | "expense"
 
-const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: TransactionFormProps) => {
+const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction }: TransactionFormProps) => {
   const formWidth = 320;
   const expenseCategories: CategoryItem[] = [
     { label: "食費", icon: <FastfoodIcon fontSize="small" /> },
@@ -58,7 +59,7 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
 
   const [categories, setCategories] = useState(expenseCategories);
 
-  const { control, setValue, watch, formState: { errors }, handleSubmit } = useForm({
+  const { control, setValue, watch, formState: { errors }, handleSubmit } = useForm<Schema>({
     defaultValues: {
       type: "expense",
       date: currentDay,
@@ -84,8 +85,9 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay }: Transac
     setValue("date", currentDay)
   }, [currentDay]);
 
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<Schema> = (data) => {
     console.log(data)
+    onSaveTransaction(data);
   }
 
   return (
