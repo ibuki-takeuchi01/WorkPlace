@@ -13,7 +13,7 @@ export const transactionSchema = z.object({
   ])
     .refine((val) => val !== "", {
       message: "カテゴリを選択してください"
-    })
+    }).or(z.literal(""))
 });
 
 export type Schema = z.infer<typeof transactionSchema>
