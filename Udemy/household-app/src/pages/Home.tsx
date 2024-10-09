@@ -9,12 +9,14 @@ import { format } from 'date-fns'
 import { Schema } from '../validations/schema'
 
 interface HomeProps {
-  monthlyTransactions: Transaction[],
-  setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>,
-  onSaveTransaction: (transaction: Schema) => Promise<void>,
+  monthlyTransactions: Transaction[];
+  setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
+  onSaveTransaction: (transaction: Schema) => Promise<void>;
+  setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
+  selectedTransaction: Transaction | null;
 }
 
-const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction }: HomeProps,) => {
+const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, setSelectedTransaction, selectedTransaction }: HomeProps,) => {
   const today = format(new Date(), "yyyy-MM-dd");
   const [currentDay, setCurrentDay] = useState(today);
   const [isEntryDrawerOpen, setIsEntryDrawerOpen] = useState(false);
@@ -33,7 +35,8 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction }: HomeP
 
   /** 取引が選択された時の処理 */
   const handleSelectTransaction = (transaction: Transaction) => {
-    setIsEntryDrawerOpen(true)
+    setIsEntryDrawerOpen(true);
+    setSelectedTransaction(transaction);
   }
 
   return (
@@ -61,6 +64,7 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction }: HomeP
           isEntryDrawerOpen={isEntryDrawerOpen}
           currentDay={currentDay}
           onSaveTransaction={onSaveTransaction}
+          selectedTransaction={selectedTransaction}
         />
       </Box>
     </Box>
