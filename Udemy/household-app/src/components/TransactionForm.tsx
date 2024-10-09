@@ -247,9 +247,24 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
             )}
           />
           {/* 保存ボタン */}
-          <Button type="submit" variant="contained" color={currentType === "income" ? "primary" : "error"} fullWidth>
+          <Button
+            type="submit"
+            variant="contained"
+            color={currentType === "income" ? "primary" : "error"}
+            fullWidth
+          >
             保存
           </Button>
+          {/* 削除ボタン */}
+          {selectedTransaction && (
+            <Button
+              variant="outlined"
+              color={"secondary"}
+              fullWidth
+            >
+              削除
+            </Button>
+          )}
         </Stack>
       </Box>
     </Box>
