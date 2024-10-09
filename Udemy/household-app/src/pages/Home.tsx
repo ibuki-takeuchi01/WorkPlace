@@ -24,13 +24,19 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, setSele
     return transaction.date === currentDay;
   });
 
+  /** フォームの×ボタン押下時の処理 */
   const closeForm = () => {
-    setIsEntryDrawerOpen(!isEntryDrawerOpen)
+    setIsEntryDrawerOpen(!isEntryDrawerOpen);
+    setSelectedTransaction(null);
   };
 
-  /** フォームの開閉処理 */
+  /** フォームの開閉処理(内訳追加ボタンを押したとき) */
   const handleAddTransactionForm = () => {
-    setIsEntryDrawerOpen(!isEntryDrawerOpen)
+    if (selectedTransaction) {
+      setSelectedTransaction(null);
+    } else {
+      setIsEntryDrawerOpen(!isEntryDrawerOpen);
+    }
   };
 
   /** 取引が選択された時の処理 */

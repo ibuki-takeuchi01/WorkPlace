@@ -109,6 +109,14 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
       setValue("amount", selectedTransaction.amount)
       setValue("category", selectedTransaction.category)
       setValue("content", selectedTransaction.content)
+    } else {
+      reset({
+        type: "expense",
+        date: currentDay,
+        amount: 0,
+        category: "",
+        content: "",
+      });
     }
   }, [selectedTransaction]);
 
