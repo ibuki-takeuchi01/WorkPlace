@@ -32,6 +32,7 @@ interface TransactionFormProps {
   currentDay: string;
   onSaveTransaction: (transaction: Schema) => Promise<void>;
   selectedTransaction: Transaction | null;
+  onDeleteTransaction: (transactionId: string) => Promise<void>;
 }
 
 interface CategoryItem {
@@ -41,7 +42,7 @@ interface CategoryItem {
 
 type IncomeExpense = "income" | "expense"
 
-const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction }: TransactionFormProps) => {
+const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction, onDeleteTransaction }: TransactionFormProps) => {
   const formWidth = 320;
   const expenseCategories: CategoryItem[] = [
     { label: "食費", icon: <FastfoodIcon fontSize="small" /> },
@@ -119,6 +120,13 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
       });
     }
   }, [selectedTransaction]);
+
+  /** 取引を削除する処理 */
+  const handleDelete = () => {
+    if (selectedTransaction) {
+      onDeleteTransaction(selectedTransaction?.id);
+    }
+  }
 
   return (
     <Box
@@ -258,6 +266,7 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
           {/* 削除ボタン */}
           {selectedTransaction && (
             <Button
+              onClick={handleDelete}
               variant="outlined"
               color={"secondary"}
               fullWidth

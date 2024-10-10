@@ -8,7 +8,7 @@ import { ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Transaction } from "./types/index";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "./firebase"
 import { formatMonth } from "./utils/formatting";
 import { Schema } from "./validations/schema";
@@ -73,6 +73,18 @@ function App() {
     }
   };
 
+  const handleDeleteTransaction = async (transactionId: string) => {
+    try {
+      await deleteDoc(doc(db, "Transactions", transactionId));
+    } catch (error) {
+      if (isFireStoreError(error)) {
+        console.error("firebaseエラー:", error);
+      } else {
+        console.error("一般的なエラー:", error);
+      }
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -84,6 +96,7 @@ function App() {
                 monthlyTransactions={monthlyTransactions}
                 setCurrentMonth={setCurrentMonth}
                 onSaveTransaction={handleSaveTransaction}
+                onDeleteTransaction={handleDeleteTransaction}
               />} />
             <Route path="/report" element={<Report />} />
             <Route path="*" element={<NoMatch />} />
