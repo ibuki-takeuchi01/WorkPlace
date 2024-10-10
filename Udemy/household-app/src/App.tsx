@@ -73,9 +73,13 @@ function App() {
     }
   };
 
+  /** 取引をfirebaseから削除する処理 */
   const handleDeleteTransaction = async (transactionId: string) => {
     try {
       await deleteDoc(doc(db, "Transactions", transactionId));
+      const filteredTransactions = transactions.filter((transaction) => transaction.id !== transactionId);
+      console.log(filteredTransactions);
+      setTransactions(filteredTransactions);
     } catch (error) {
       if (isFireStoreError(error)) {
         console.error("firebaseエラー:", error);

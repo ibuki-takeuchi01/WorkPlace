@@ -32,6 +32,7 @@ interface TransactionFormProps {
   currentDay: string;
   onSaveTransaction: (transaction: Schema) => Promise<void>;
   selectedTransaction: Transaction | null;
+  setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>
   onDeleteTransaction: (transactionId: string) => Promise<void>;
 }
 
@@ -42,7 +43,7 @@ interface CategoryItem {
 
 type IncomeExpense = "income" | "expense"
 
-const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction, onDeleteTransaction }: TransactionFormProps) => {
+const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction, setSelectedTransaction, onDeleteTransaction }: TransactionFormProps) => {
   const formWidth = 320;
   const expenseCategories: CategoryItem[] = [
     { label: "食費", icon: <FastfoodIcon fontSize="small" /> },
@@ -125,6 +126,7 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
   const handleDelete = () => {
     if (selectedTransaction) {
       onDeleteTransaction(selectedTransaction?.id);
+      setSelectedTransaction(null);
     }
   }
 
