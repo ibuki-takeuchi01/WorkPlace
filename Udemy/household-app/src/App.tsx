@@ -95,7 +95,7 @@ function App() {
       const docRef = doc(db, "Transactions", transactionId);
       await updateDoc(docRef, transaction);
       const updateTransactions = transactions.map((t) =>
-        t.id == transactionId ? { ...t, ...transaction } : t
+        t.id === transactionId ? { ...t, ...transaction } : t
       ) as Transaction[];
       setTransactions(updateTransactions);
     } catch (error) {
