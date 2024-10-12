@@ -34,6 +34,7 @@ interface TransactionFormProps {
   selectedTransaction: Transaction | null;
   setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>
   onDeleteTransaction: (transactionId: string) => Promise<void>;
+  onUpdateTransaction: (transaction: Schema, transactionId: string) => Promise<void>;
 }
 
 interface CategoryItem {
@@ -43,7 +44,7 @@ interface CategoryItem {
 
 type IncomeExpense = "income" | "expense"
 
-const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction, setSelectedTransaction, onDeleteTransaction }: TransactionFormProps) => {
+const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction, setSelectedTransaction, onDeleteTransaction, onUpdateTransaction }: TransactionFormProps) => {
   const formWidth = 320;
   const expenseCategories: CategoryItem[] = [
     { label: "食費", icon: <FastfoodIcon fontSize="small" /> },
@@ -79,6 +80,7 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
     setValue("category", "");
   };
 
+  /** 収支タイプを監視する関数 */
   const currentType = watch("type");
 
   useEffect(() => {
@@ -93,7 +95,24 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
   /** 送信処理 */
   const onSubmit: SubmitHandler<Schema> = (data) => {
     console.log(data)
-    onSaveTransaction(data);
+    if (selectedTransaction) {
+      onUpdateTransaction(data, selectedTransaction.id)
+        .then(() => {
+          console.log("更新が完了しました。");
+          setSelectedTransaction(null);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+    } else {
+      onSaveTransaction(data).then(() => {
+        console.log("保存が完了しました。");
+        setSelectedTransaction(null);
+      })
+        .catch((error) => {
+          console.error(error);
+        })
+    }
 
     reset({
       type: "expense",
@@ -104,12 +123,20 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
     });
   };
 
+  /** フォーム切り替え時にカテゴリの値を初期化する */
+  useEffect(() => {
+    if (selectedTransaction) {
+      const categoryExists = categories.some((category) => category.label === selectedTransaction.category);
+      setValue("category", categoryExists ? selectedTransaction.category : "");
+    };
+  }, [selectedTransaction, categories])
+
+  /** フォーム内容を初期化 */
   useEffect(() => {
     if (selectedTransaction) {
       setValue("type", selectedTransaction.type)
       setValue("date", selectedTransaction.date)
       setValue("amount", selectedTransaction.amount)
-      setValue("category", selectedTransaction.category)
       setValue("content", selectedTransaction.content)
     } else {
       reset({
@@ -263,7 +290,7 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
             color={currentType === "income" ? "primary" : "error"}
             fullWidth
           >
-            保存
+            {selectedTransaction ? "更新" : "保存"}
           </Button>
           {/* 削除ボタン */}
           {selectedTransaction && (
