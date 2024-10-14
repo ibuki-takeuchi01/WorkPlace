@@ -4,7 +4,12 @@ import CategoryChart from '../components/CategoryChart'
 import BarChart from '../components/BarChart'
 import TransactionTable from '../components/TransactionTable'
 
-const Report = () => {
+interface ReportProps {
+  currentMont: Date;
+  setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
+}
+
+const Report = ({ currentMont, setCurrentMonth }: ReportProps) => {
   const commonPaperStyle = {
     height: { xs: "auto", md: "400px" },
     display: "flex",
@@ -14,7 +19,10 @@ const Report = () => {
   return (
     <Grid2 container spacing={2}>
       <Grid2 size={{ xs: 12 }}>
-        <MonthSelector />
+        <MonthSelector
+          currentMont={currentMont}
+          setCurrentMonth={setCurrentMonth}
+        />
       </Grid2>
       <Grid2 size={{ xs: 12, md: 4 }}>
         <Paper sx={commonPaperStyle}>
