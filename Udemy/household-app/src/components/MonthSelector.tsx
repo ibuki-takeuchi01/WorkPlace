@@ -10,6 +10,14 @@ interface MonthSelectorProps {
 }
 
 const MonthSelector = ({ currentMont, setCurrentMonth }: MonthSelectorProps) => {
+
+  const handleDateChange = (newDate: Date | null) => {
+    console.log(newDate);
+    if (newDate) {
+      setCurrentMonth(newDate);
+    }
+  }
+
   /** 先月ボタン押下時の処理 */
   const handlePreviousMonth = () => {
     const previousMonth = addMonths(currentMont, -1);
@@ -32,6 +40,7 @@ const MonthSelector = ({ currentMont, setCurrentMonth }: MonthSelectorProps) => 
       >
         <Button onClick={handlePreviousMonth} color={"error"} variant='contained'>先月</Button>
         <DatePicker
+          onChange={handleDateChange}
           label="年月を選択"
           value={currentMont}
           sx={{ mx: 2, background: "white" }}
