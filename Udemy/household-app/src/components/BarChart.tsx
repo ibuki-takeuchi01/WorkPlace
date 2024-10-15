@@ -21,14 +21,15 @@ ChartJs.register(
 const BarChart = () => {
 
   const options = {
+    maintainAspectRatio: false,
     responsive: true,
     plugins: {
-      legend: {
-        position: "top" as const,
-      },
+      // legend: {
+      //   position: "top" as const,
+      // },
       title: {
         display: true,
-        text: "Chart.js Bar Chart",
+        text: "日別収支",
       },
     },
   };

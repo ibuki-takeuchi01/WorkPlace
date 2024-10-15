@@ -14,6 +14,7 @@ const Report = ({ currentMont, setCurrentMonth }: ReportProps) => {
     height: { xs: "auto", md: "400px" },
     display: "flex",
     flexDirection: "column",
+    p: 2,
   }
 
   return (
