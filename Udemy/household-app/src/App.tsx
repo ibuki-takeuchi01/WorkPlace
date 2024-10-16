@@ -125,6 +125,7 @@ function App() {
               <Report
                 currentMont={currentMont}
                 setCurrentMonth={setCurrentMonth}
+                monthlyTransactions={monthlyTransactions}
               />} />
             <Route path="*" element={<NoMatch />} />
           </Route>
