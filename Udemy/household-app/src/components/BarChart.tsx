@@ -6,10 +6,12 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartData,
 } from "chart.js";
 import { Bar } from 'react-chartjs-2';
 import { Transaction } from "../types";
 import { calculateDailyBalances } from "../utils/financeCalculations";
+import { useTheme } from "@mui/material";
 
 ChartJs.register(
   CategoryScale,
@@ -25,7 +27,7 @@ interface BarChartProps {
 }
 
 const BarChart = ({ monthlyTransactions }: BarChartProps) => {
-
+  const theme = useTheme();
   const options = {
     maintainAspectRatio: false,
     responsive: true,
@@ -41,36 +43,22 @@ const BarChart = ({ monthlyTransactions }: BarChartProps) => {
   };
 
   const dailyBalances = calculateDailyBalances(monthlyTransactions);
-  console.log(dailyBalances);
-  console.log(monthlyTransactions);
-
-
-  const dateLabels = Object.keys(dailyBalances);
+  const dateLabels = Object.keys(dailyBalances).sort();
   const expenseData = dateLabels.map((day) => dailyBalances[day].expense);
   const incomeData = dateLabels.map((day) => dailyBalances[day].income);
 
-  const labels = [
-    "2024-10-15",
-    "2024-10-16",
-    "2024-10-17",
-    "2024-10-18",
-    "2024-10-19",
-    "2024-10-20",
-    "2024-10-21",
-  ]
-
-  const data = {
-    labels,
+  const data: ChartData<"bar"> = {
+    labels: dateLabels,
     datasets: [
       {
         label: "支出",
-        data: [100, 200, 300, 400, 500, 600, 700],
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        data: expenseData,
+        backgroundColor: theme.palette.expenseColor.light,
       },
       {
         label: "収入",
-        data: [900, 800, 700, 600, 500, 400, 300],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        data: incomeData,
+        backgroundColor: theme.palette.incomeColor.light,
       },
     ]
   }
