@@ -11,7 +11,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { Transaction } from "../types";
 import { calculateDailyBalances } from "../utils/financeCalculations";
-import { Box, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
 
 ChartJs.register(
@@ -70,8 +70,10 @@ const BarChart = ({ monthlyTransactions, isLoading }: BarChartProps) => {
       {
         isLoading ? (
           <CircularProgress />
-        ) : (
+        ) : monthlyTransactions.length > 0 ? (
           <Bar options={options} data={data} />
+        ) : (
+          <Typography>データがありません</Typography>
         )
       }
     </Box>
