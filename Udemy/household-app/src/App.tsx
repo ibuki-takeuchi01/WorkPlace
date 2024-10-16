@@ -21,7 +21,9 @@ function App() {
   }
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentMont, setCurrentMonth] = useState(new Date());
+  const [isLoading, setIsLoading] = useState(true);
 
+  /** firebaseのデータをすべて取得 */
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -39,6 +41,9 @@ function App() {
         } else {
           console.error("一般的なエラー:", error);
         }
+      } finally {
+        setIsLoading(false);
+        console.log(isLoading);
       }
     }
     fetchTransactions();
@@ -126,6 +131,7 @@ function App() {
                 currentMont={currentMont}
                 setCurrentMonth={setCurrentMonth}
                 monthlyTransactions={monthlyTransactions}
+                isLoading={isLoading}
               />} />
             <Route path="*" element={<NoMatch />} />
           </Route>

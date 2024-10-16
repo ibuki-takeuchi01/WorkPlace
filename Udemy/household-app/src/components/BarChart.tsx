@@ -11,7 +11,8 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { Transaction } from "../types";
 import { calculateDailyBalances } from "../utils/financeCalculations";
-import { useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 
 ChartJs.register(
   CategoryScale,
@@ -24,9 +25,10 @@ ChartJs.register(
 
 interface BarChartProps {
   monthlyTransactions: Transaction[];
+  isLoading: boolean;
 }
 
-const BarChart = ({ monthlyTransactions }: BarChartProps) => {
+const BarChart = ({ monthlyTransactions, isLoading }: BarChartProps) => {
   const theme = useTheme();
   const options = {
     maintainAspectRatio: false,
@@ -63,7 +65,17 @@ const BarChart = ({ monthlyTransactions }: BarChartProps) => {
     ]
   }
 
-  return <Bar options={options} data={data} />;
+  return (
+    <Box>
+      {
+        isLoading ? (
+          <CircularProgress />
+        ) : (
+          <Bar options={options} data={data} />
+        )
+      }
+    </Box>
+  );
 }
 
 export default BarChart
