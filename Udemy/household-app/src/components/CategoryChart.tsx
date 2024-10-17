@@ -1,6 +1,8 @@
 import { Box, MenuItem, TextField } from '@mui/material'
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJs, ArcElement, Legend, Tooltip } from 'chart.js';
+import { useState } from 'react';
+import { TransactionType } from '../types';
 
 ChartJs.register(
   ArcElement,
@@ -10,6 +12,13 @@ ChartJs.register(
 
 /** 円グラフ */
 const CategoryChart = () => {
+
+  const [selectedType, setSelectedType] = useState<TransactionType>("expense");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setSelectedType(e.target.value as TransactionType);
+  }
+
   const data = {
     // x 軸のラベル
     labels: ['1 月', '2 月', '3 月', '4 月', '5 月', '6 月', '7 月'],
@@ -46,6 +55,16 @@ const CategoryChart = () => {
 
   return (
     <Box>
+      <TextField
+        label="収支の種類"
+        select
+        fullWidth
+        value={selectedType}
+        onChange={handleChange}
+      >
+        <MenuItem value={"income"}>収入</MenuItem>
+        <MenuItem value={"expense"}>支出</MenuItem>
+      </TextField>
       <Pie data={data} />
     </Box>
   )
