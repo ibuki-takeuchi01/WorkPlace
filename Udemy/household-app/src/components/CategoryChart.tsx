@@ -1,4 +1,4 @@
-import { Box, MenuItem, TextField } from '@mui/material'
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material'
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJs, ArcElement, Legend, Tooltip } from 'chart.js';
 import { useState } from 'react';
@@ -15,7 +15,7 @@ const CategoryChart = () => {
 
   const [selectedType, setSelectedType] = useState<TransactionType>("expense");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: SelectChangeEvent<TransactionType>) => {
     setSelectedType(e.target.value as TransactionType);
   }
 
@@ -55,16 +55,19 @@ const CategoryChart = () => {
 
   return (
     <Box>
-      <TextField
-        label="収支の種類"
-        select
-        fullWidth
-        value={selectedType}
-        onChange={handleChange}
-      >
-        <MenuItem value={"income"}>収入</MenuItem>
-        <MenuItem value={"expense"}>支出</MenuItem>
-      </TextField>
+      <FormControl fullWidth>
+        <InputLabel id="type-select-label">収支の種類</InputLabel>
+        <Select
+          labelId="type-select-label"
+          id="type-select"
+          label="収支の種類"
+          value={selectedType}
+          onChange={handleChange}
+        >
+          <MenuItem value={"income"}>収入</MenuItem>
+          <MenuItem value={"expense"}>支出</MenuItem>
+        </Select>
+      </FormControl>
       <Pie data={data} />
     </Box>
   )
