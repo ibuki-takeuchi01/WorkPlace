@@ -2,7 +2,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Text
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJs, ArcElement, Legend, Tooltip } from 'chart.js';
 import { useState } from 'react';
-import { TransactionType } from '../types';
+import { ExpenseCategory, IncomeCategory, Transaction, TransactionType } from '../types';
 
 ChartJs.register(
   ArcElement,
@@ -10,14 +10,29 @@ ChartJs.register(
   Legend
 );
 
+interface CategoryChartProps {
+  monthlyTransactions: Transaction[];
+}
+
 /** 円グラフ */
-const CategoryChart = () => {
+const CategoryChart = ({ monthlyTransactions }: CategoryChartProps) => {
 
   const [selectedType, setSelectedType] = useState<TransactionType>("expense");
 
   const handleChange = (e: SelectChangeEvent<TransactionType>) => {
     setSelectedType(e.target.value as TransactionType);
   }
+
+  /** カテゴリ毎の合計金額を計算する処理 */
+  const categorySums = monthlyTransactions
+    .filter((transaction) => transaction.type === selectedType)
+    .reduce<Record<IncomeCategory | ExpenseCategory, number>>((acc, transaction) => {
+      if (!acc[transaction.category]) {
+        acc[transaction.category] = 0;
+      }
+      acc[transaction.category] += transaction.amount;
+      return acc;
+    }, {} as Record<IncomeCategory | ExpenseCategory, number>);
 
   const data = {
     // x 軸のラベル
