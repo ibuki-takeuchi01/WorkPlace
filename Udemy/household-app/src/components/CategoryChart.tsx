@@ -1,4 +1,4 @@
-import { Box, CircularProgress, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'
+import { Box, CircularProgress, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography, useTheme } from '@mui/material'
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJs, ArcElement, Legend, Tooltip, ChartData } from 'chart.js';
 import { useState } from 'react';
@@ -17,7 +17,7 @@ interface CategoryChartProps {
 
 /** 円グラフ */
 const CategoryChart = ({ monthlyTransactions, isLoading }: CategoryChartProps) => {
-
+  const theme = useTheme();
   const [selectedType, setSelectedType] = useState<TransactionType>("expense");
 
   const handleChange = (e: SelectChangeEvent<TransactionType>) => {
@@ -42,6 +42,22 @@ const CategoryChart = ({ monthlyTransactions, isLoading }: CategoryChartProps) =
     maintainAspectRatio: false,
     responsive: true,
   };
+
+  const incomeCategoryColor: Record<IncomeCategory, string> = {
+    "給与": theme.palette.incomeCategoryColor.給与,
+    "ボーナス": theme.palette.incomeCategoryColor.ボーナス,
+    "その他収入": theme.palette.incomeCategoryColor.その他収入,
+  }
+
+  const expenseCategoryColor: Record<ExpenseCategory, string> = {
+    "食費": theme.palette.expenseCategoryColor.食費,
+    "日用品": theme.palette.expenseCategoryColor.日用品,
+    "住居費": theme.palette.expenseCategoryColor.住居費,
+    "交際費": theme.palette.expenseCategoryColor.交際費,
+    "娯楽": theme.palette.expenseCategoryColor.娯楽,
+    "交通費": theme.palette.expenseCategoryColor.交通費,
+    "医療費": theme.palette.expenseCategoryColor.医療費,
+  }
 
   const data: ChartData<"pie"> = {
     // x 軸のラベル
