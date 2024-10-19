@@ -32,6 +32,7 @@ const Report = ({ currentMont, setCurrentMonth, monthlyTransactions, isLoading }
         <Paper sx={commonPaperStyle}>
           <CategoryChart
             monthlyTransactions={monthlyTransactions}
+            isLoading={isLoading}
           />
         </Paper>
       </Grid2>
