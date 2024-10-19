@@ -15,8 +15,6 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
@@ -128,7 +126,7 @@ const headCells: readonly HeadCell[] = [
   },
 ];
 
-interface EnhancedTableProps {
+interface TransactionTableHeadProps {
   numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -137,7 +135,8 @@ interface EnhancedTableProps {
   rowCount: number;
 }
 
-function EnhancedTableHead(props: EnhancedTableProps) {
+/** テーブルヘッダー */
+function TransactionTableHead(props: TransactionTableHeadProps) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
     props;
   const createSortHandler =
@@ -184,10 +183,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     </TableHead>
   );
 }
-interface EnhancedTableToolbarProps {
+interface TransactionTableToolbarProps {
   numSelected: number;
 }
-function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
+/** ツールバー */
+function TransactionTableToolbar(props: TransactionTableToolbarProps) {
   const { numSelected } = props;
   return (
     <Toolbar
@@ -237,7 +237,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     </Toolbar>
   );
 }
-export default function EnhancedTable() {
+/** テーブル本体 */
+export default function TransactionTable() {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -291,10 +292,6 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
-  const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDense(event.target.checked);
-  };
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -310,14 +307,16 @@ export default function EnhancedTable() {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        {/** ツールバー */}
+        <TransactionTableToolbar numSelected={selected.length} />
+        {/** 取引一覧 */}
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
-            <EnhancedTableHead
+            <TransactionTableHead
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
@@ -377,6 +376,7 @@ export default function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
+        {/** テーブル下部 */}
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -387,10 +387,6 @@ export default function EnhancedTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </Box>
   );
 }
