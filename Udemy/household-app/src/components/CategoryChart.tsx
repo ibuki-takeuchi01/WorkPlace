@@ -35,7 +35,7 @@ const CategoryChart = ({ monthlyTransactions, isLoading }: CategoryChartProps) =
       return acc;
     }, {} as Record<IncomeCategory | ExpenseCategory, number>);
 
-  const categoryLabels = Object.keys(categorySums);
+  const categoryLabels = Object.keys(categorySums) as (IncomeCategory | ExpenseCategory)[];
   const categoryValues = Object.values(categorySums);
 
   const options = {
@@ -47,7 +47,7 @@ const CategoryChart = ({ monthlyTransactions, isLoading }: CategoryChartProps) =
     "給与": theme.palette.incomeCategoryColor.給与,
     "ボーナス": theme.palette.incomeCategoryColor.ボーナス,
     "その他収入": theme.palette.incomeCategoryColor.その他収入,
-  }
+  };
 
   const expenseCategoryColor: Record<ExpenseCategory, string> = {
     "食費": theme.palette.expenseCategoryColor.食費,
@@ -57,6 +57,15 @@ const CategoryChart = ({ monthlyTransactions, isLoading }: CategoryChartProps) =
     "娯楽": theme.palette.expenseCategoryColor.娯楽,
     "交通費": theme.palette.expenseCategoryColor.交通費,
     "医療費": theme.palette.expenseCategoryColor.医療費,
+  };
+
+  const getCategoryColor = (category: IncomeCategory | ExpenseCategory): string => {
+    if (selectedType === "income") {
+      return incomeCategoryColor[category as IncomeCategory];
+    }
+    else {
+      return expenseCategoryColor[category as ExpenseCategory]
+    }
   }
 
   const data: ChartData<"pie"> = {
@@ -67,25 +76,13 @@ const CategoryChart = ({ monthlyTransactions, isLoading }: CategoryChartProps) =
         // データの値
         data: categoryValues,
         // グラフの背景色
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(255, 205, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(201, 203, 207, 0.2)',
-        ],
+        backgroundColor: categoryLabels.map((category) =>
+          getCategoryColor(category)
+        ),
         // グラフの枠線の色
-        borderColor: [
-          'rgb(255, 99, 132)',
-          'rgb(255, 159, 64)',
-          'rgb(255, 205, 86)',
-          'rgb(75, 192, 192)',
-          'rgb(54, 162, 235)',
-          'rgb(153, 102, 255)',
-          'rgb(201, 203, 207)',
-        ],
+        borderColor: categoryLabels.map((category) =>
+          getCategoryColor(category)
+        ),
         // グラフの枠線の太さ
         borderWidth: 1,
       },
