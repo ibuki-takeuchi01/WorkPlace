@@ -22,6 +22,7 @@ import { Transaction } from '../types';
 import { financeCalculations } from '../utils/financeCalculations';
 import { Grid2 } from '@mui/material';
 import exp from 'constants';
+import { formatCurrency } from '../utils/formatting';
 
 interface Data {
   id: number;
@@ -251,10 +252,25 @@ interface FinancialItemProps {
 /** 収支表示コンポーネント */
 function FinancialItem({ title, value, color }: FinancialItemProps) {
   return (
-    <Grid2>
-      <Typography>{title}</Typography>
-      <Typography sx={{ color: { color } }}>¥{value}</Typography>
-    </Grid2>
+    <Grid2 size={{ xs: 4 }} textAlign={"center"}>
+      <Typography
+        variant="subtitle1"
+        component={"div"}
+      >
+        {title}
+      </Typography>
+      <Typography
+        component={"span"}
+        fontWeight={"fontWeightBold"}
+        sx={{
+          color: color,
+          fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },
+          wordBreak: "break-word",
+        }}
+      >
+        ¥{formatCurrency(value)}
+      </Typography>
+    </Grid2 >
   )
 }
 
@@ -335,7 +351,7 @@ export default function TransactionTable({ monthlyTransactions }: TransactionTab
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <Grid2 container>
+        <Grid2 container sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
           {/** 収入 */}
           <FinancialItem
             title={"収入"}
