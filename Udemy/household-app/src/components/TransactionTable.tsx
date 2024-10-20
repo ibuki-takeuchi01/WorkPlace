@@ -8,7 +8,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
@@ -16,12 +15,9 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
 import { Transaction } from '../types';
 import { financeCalculations } from '../utils/financeCalculations';
 import { Grid2 } from '@mui/material';
-import exp from 'constants';
 import { formatCurrency } from '../utils/formatting';
 
 interface Data {
@@ -312,11 +308,11 @@ export default function TransactionTable({ monthlyTransactions }: TransactionTab
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const visibleRows = React.useMemo(
-    () =>
-      [...rows]
-        .sort(getComparator(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage],
+    () => {
+      const cloneMonthlyTransactions = [...monthlyTransactions];
+      return cloneMonthlyTransactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    },
+    [order, orderBy, page, rowsPerPage, monthlyTransactions],
   );
 
   const { income, expense, balance } = financeCalculations(monthlyTransactions);
@@ -363,13 +359,13 @@ export default function TransactionTable({ monthlyTransactions }: TransactionTab
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = selected.includes(row.id);
+                const isItemSelected = selected.includes(Number(row.id));
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
+                    onClick={(event) => handleClick(event, Number(row.id))}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -392,12 +388,11 @@ export default function TransactionTable({ monthlyTransactions }: TransactionTab
                       scope="row"
                       padding="none"
                     >
-                      {row.name}
+                      {row.date}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+                    <TableCell align="right">{row.category}</TableCell>
+                    <TableCell align="right">{row.amount}</TableCell>
+                    <TableCell align="right">{row.content}</TableCell>
                   </TableRow>
                 );
               })}
