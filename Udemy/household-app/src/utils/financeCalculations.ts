@@ -1,5 +1,6 @@
 import { Balance, Transaction } from "../types";
 
+/** 収支の合計を計算する */
 export function financeCalculations(transactions: Transaction[]): Balance {
   return transactions.reduce((acc, transaction) => {
     if (transaction.type === "income") {

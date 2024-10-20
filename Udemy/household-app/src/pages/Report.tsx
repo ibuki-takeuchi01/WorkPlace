@@ -45,7 +45,9 @@ const Report = ({ currentMont, setCurrentMonth, monthlyTransactions, isLoading }
         </Paper>
       </Grid2>
       <Grid2 size={{ xs: 12 }}>
-        <TransactionTable />
+        <TransactionTable
+          monthlyTransactions={monthlyTransactions}
+        />
       </Grid2>
     </Grid2>
   )

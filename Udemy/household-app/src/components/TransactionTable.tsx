@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { alpha } from '@mui/material/styles';
+import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,6 +18,10 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import { Transaction } from '../types';
+import { financeCalculations } from '../utils/financeCalculations';
+import { Grid2 } from '@mui/material';
+import exp from 'constants';
 
 interface Data {
   id: number;
@@ -237,8 +241,30 @@ function TransactionTableToolbar(props: TransactionTableToolbarProps) {
     </Toolbar>
   );
 }
+
+interface FinancialItemProps {
+  title: string;
+  value: number;
+  color: string;
+}
+
+/** 収支表示コンポーネント */
+function FinancialItem({ title, value, color }: FinancialItemProps) {
+  return (
+    <Grid2>
+      <Typography>{title}</Typography>
+      <Typography sx={{ color: { color } }}>¥{value}</Typography>
+    </Grid2>
+  )
+}
+
+interface TransactionTableProps {
+  monthlyTransactions: Transaction[];
+}
+
 /** テーブル本体 */
-export default function TransactionTable() {
+export default function TransactionTable({ monthlyTransactions }: TransactionTableProps) {
+  const theme = useTheme();
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -304,9 +330,31 @@ export default function TransactionTable() {
     [order, orderBy, page, rowsPerPage],
   );
 
+  const { income, expense, balance } = financeCalculations(monthlyTransactions);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
+        <Grid2 container>
+          {/** 収入 */}
+          <FinancialItem
+            title={"収入"}
+            value={income}
+            color={theme.palette.incomeColor.main}
+          />
+          {/** 支出 */}
+          <FinancialItem
+            title={"支出"}
+            value={expense}
+            color={theme.palette.expenseColor.main}
+          />
+          {/** 残高 */}
+          <FinancialItem
+            title={"残高"}
+            value={balance}
+            color={theme.palette.balanceColor.main}
+          />
+        </Grid2>
         {/** ツールバー */}
         <TransactionTableToolbar numSelected={selected.length} />
         {/** 取引一覧 */}
