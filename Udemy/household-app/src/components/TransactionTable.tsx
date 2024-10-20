@@ -223,19 +223,13 @@ function TransactionTableToolbar(props: TransactionTableToolbarProps) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          月の収支
         </Typography>
       )}
-      {numSelected > 0 ? (
+      {numSelected > 0 && (
         <Tooltip title="Delete">
           <IconButton>
             <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
           </IconButton>
         </Tooltip>
       )}
