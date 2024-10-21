@@ -20,6 +20,7 @@ import { financeCalculations } from '../utils/financeCalculations';
 import { Grid2 } from '@mui/material';
 import { formatCurrency } from '../utils/formatting';
 import IconComponents from './common/IconComponents';
+import { compareDesc, parseISO } from 'date-fns';
 
 interface Data {
   id: number;
@@ -306,12 +307,15 @@ export default function TransactionTable({ monthlyTransactions }: TransactionTab
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - monthlyTransactions.length) : 0;
 
+  /** 取引データから表示件数分取得 */
   const visibleRows = React.useMemo(
     () => {
-      const cloneMonthlyTransactions = [...monthlyTransactions];
-      return cloneMonthlyTransactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+      const sortedMonthlyTransactions = [...monthlyTransactions].sort((a, b) =>
+        compareDesc(parseISO(a.date), parseISO(b.date))
+      );
+      return sortedMonthlyTransactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
     },
     [order, orderBy, page, rowsPerPage, monthlyTransactions],
   );
@@ -403,7 +407,7 @@ export default function TransactionTable({ monthlyTransactions }: TransactionTab
               {emptyRows > 0 && (
                 <TableRow
                   style={{
-                    height: (dense ? 33 : 53) * emptyRows,
+                    height: (53) * emptyRows,
                   }}
                 >
                   <TableCell colSpan={6} />
@@ -416,7 +420,7 @@ export default function TransactionTable({ monthlyTransactions }: TransactionTab
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={monthlyTransactions.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
