@@ -65,70 +65,6 @@ const rows = [
   createData(13, 'Oreo', 437, 18.0, 63, 4.0),
 ];
 
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-type Order = 'asc' | 'desc';
-
-function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key,
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
-) => number {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-interface HeadCell {
-  disablePadding: boolean;
-  id: keyof Data;
-  label: string;
-  numeric: boolean;
-}
-
-const headCells: readonly HeadCell[] = [
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Dessert (100g serving)',
-  },
-  {
-    id: 'calories',
-    numeric: true,
-    disablePadding: false,
-    label: 'カテゴリ',
-  },
-  {
-    id: 'fat',
-    numeric: true,
-    disablePadding: false,
-    label: 'Fat (g)',
-  },
-  {
-    id: 'carbs',
-    numeric: true,
-    disablePadding: false,
-    label: 'Carbs (g)',
-  },
-  {
-    id: 'protein',
-    numeric: true,
-    disablePadding: false,
-    label: 'Protein (g)',
-  },
-];
-
 interface TransactionTableHeadProps {
   numSelected: number;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -164,10 +100,11 @@ function TransactionTableHead(props: TransactionTableHeadProps) {
 }
 interface TransactionTableToolbarProps {
   numSelected: number;
+  onDelete: () => void;
 }
 /** ツールバー */
 function TransactionTableToolbar(props: TransactionTableToolbarProps) {
-  const { numSelected } = props;
+  const { numSelected, onDelete } = props;
   return (
     <Toolbar
       sx={[
@@ -202,7 +139,7 @@ function TransactionTableToolbar(props: TransactionTableToolbarProps) {
       )}
       {numSelected > 0 && (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={onDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -244,10 +181,11 @@ function FinancialItem({ title, value, color }: FinancialItemProps) {
 
 interface TransactionTableProps {
   monthlyTransactions: Transaction[];
+  onDeleteTransaction: (transactionId: string) => Promise<void>;
 }
 
 /** テーブル本体 */
-export default function TransactionTable({ monthlyTransactions }: TransactionTableProps) {
+export default function TransactionTable({ monthlyTransactions, onDeleteTransaction }: TransactionTableProps) {
   const theme = useTheme();
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
@@ -290,6 +228,14 @@ export default function TransactionTable({ monthlyTransactions }: TransactionTab
     setPage(0);
   };
 
+  /** 取引削除処理 */
+  const handleDelete = () => {
+    // selected.map((selectItemId) => {
+    //   onDeleteTransaction(selectItemId);
+    // })
+    setSelected([]);
+  }
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - monthlyTransactions.length) : 0;
@@ -331,7 +277,10 @@ export default function TransactionTable({ monthlyTransactions }: TransactionTab
           />
         </Grid2>
         {/** ツールバー */}
-        <TransactionTableToolbar numSelected={selected.length} />
+        <TransactionTableToolbar
+          numSelected={selected.length}
+          onDelete={handleDelete}
+        />
         {/** 取引一覧 */}
         <TableContainer>
           <Table

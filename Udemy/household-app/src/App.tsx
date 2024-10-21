@@ -132,6 +132,7 @@ function App() {
                 setCurrentMonth={setCurrentMonth}
                 monthlyTransactions={monthlyTransactions}
                 isLoading={isLoading}
+                onDeleteTransaction={handleDeleteTransaction}
               />} />
             <Route path="*" element={<NoMatch />} />
           </Route>
