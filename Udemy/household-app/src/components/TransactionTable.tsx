@@ -131,10 +131,7 @@ const headCells: readonly HeadCell[] = [
 
 interface TransactionTableHeadProps {
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
   rowCount: number;
 }
 
@@ -252,21 +249,9 @@ interface TransactionTableProps {
 /** テーブル本体 */
 export default function TransactionTable({ monthlyTransactions }: TransactionTableProps) {
   const theme = useTheme();
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data,
-  ) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -317,7 +302,7 @@ export default function TransactionTable({ monthlyTransactions }: TransactionTab
       );
       return sortedMonthlyTransactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
     },
-    [order, orderBy, page, rowsPerPage, monthlyTransactions],
+    [page, rowsPerPage, monthlyTransactions],
   );
 
   const { income, expense, balance } = financeCalculations(monthlyTransactions);
@@ -352,14 +337,11 @@ export default function TransactionTable({ monthlyTransactions }: TransactionTab
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size={'medium'}
           >
             <TransactionTableHead
               numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
             <TableBody>
