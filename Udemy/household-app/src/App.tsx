@@ -79,12 +79,16 @@ function App() {
   };
 
   /** 取引をfirebaseから削除する処理 */
-  const handleDeleteTransaction = async (transactionId: string) => {
+  const handleDeleteTransaction = async (transactionIds: string | readonly string[]) => {
     try {
-      await deleteDoc(doc(db, "Transactions", transactionId));
-      const filteredTransactions = transactions.filter((transaction) => transaction.id !== transactionId);
-      console.log(filteredTransactions);
-      setTransactions(filteredTransactions);
+      const idsToDelete = Array.isArray(transactionIds) ? transactionIds : [transactionIds];
+      for (const id of idsToDelete) {
+        await deleteDoc(doc(db, "Transactions", id));
+      }
+
+      // const filteredTransactions = transactions.filter((transaction) => transaction.id !== transactionId);
+      // console.log(filteredTransactions);
+      // setTransactions(filteredTransactions);
     } catch (error) {
       if (isFireStoreError(error)) {
         console.error("firebaseエラー:", error);

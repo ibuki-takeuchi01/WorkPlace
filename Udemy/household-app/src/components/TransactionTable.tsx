@@ -181,7 +181,7 @@ function FinancialItem({ title, value, color }: FinancialItemProps) {
 
 interface TransactionTableProps {
   monthlyTransactions: Transaction[];
-  onDeleteTransaction: (transactionId: string) => Promise<void>;
+  onDeleteTransaction: (transactionId: string | readonly string[]) => Promise<void>;
 }
 
 /** テーブル本体 */
@@ -230,9 +230,7 @@ export default function TransactionTable({ monthlyTransactions, onDeleteTransact
 
   /** 取引削除処理 */
   const handleDelete = () => {
-    // selected.map((selectItemId) => {
-    //   onDeleteTransaction(selectItemId);
-    // })
+    onDeleteTransaction(selected);
     setSelected([]);
   }
 

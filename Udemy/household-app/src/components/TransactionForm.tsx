@@ -37,7 +37,7 @@ interface TransactionFormProps {
   onSaveTransaction: (transaction: Schema) => Promise<void>;
   selectedTransaction: Transaction | null;
   setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>
-  onDeleteTransaction: (transactionId: string) => Promise<void>;
+  onDeleteTransaction: (transactionId: string | readonly string[]) => Promise<void>;
   onUpdateTransaction: (transaction: Schema, transactionId: string) => Promise<void>;
 }
 
