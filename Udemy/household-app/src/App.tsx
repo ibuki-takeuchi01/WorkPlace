@@ -86,9 +86,8 @@ function App() {
         await deleteDoc(doc(db, "Transactions", id));
       }
 
-      // const filteredTransactions = transactions.filter((transaction) => transaction.id !== transactionId);
-      // console.log(filteredTransactions);
-      // setTransactions(filteredTransactions);
+      const filteredTransactions = transactions.filter((transaction) => !idsToDelete.includes(transaction.id));
+      setTransactions(filteredTransactions);
     } catch (error) {
       if (isFireStoreError(error)) {
         console.error("firebaseエラー:", error);
