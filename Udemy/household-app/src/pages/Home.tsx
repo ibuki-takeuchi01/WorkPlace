@@ -26,7 +26,6 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
-  console.log(isMobile);
 
   /** 1日分のデータを取得する処理 */
   const dailyTransactions = monthlyTransactions.filter((transaction) => {
@@ -54,6 +53,11 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
     setSelectedTransaction(transaction);
   }
 
+  /** モバイル用Drawerを閉じる処理  */
+  const handleCloseMobileDrawer = () => {
+    setIsMobileDrawerOpen(false);
+  };
+
   /**
  * 日付クリックイベント
  * @param dateInfo 日付クリックイベント
@@ -74,7 +78,6 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
           setCurrentDay={setCurrentDay}
           currentDay={currentDay}
           onDateClick={handleDateClick}
-          isMobileDrawerOpen={isMobileDrawerOpen}
         />
       </Box>
       {/* 右側コンテンツ */}
@@ -85,6 +88,8 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
           onHandleAddTransactionForm={handleAddTransactionForm}
           onSelectTransaction={handleSelectTransaction}
           isMobile={isMobile}
+          open={isMobileDrawerOpen}
+          onClose={handleCloseMobileDrawer}
         />
         <TransactionForm
           onCloseForm={closeForm}

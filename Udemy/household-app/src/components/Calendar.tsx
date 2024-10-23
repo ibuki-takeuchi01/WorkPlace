@@ -16,10 +16,9 @@ interface CalendarProps {
   setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
   currentDay: string;
   onDateClick: (dateInfo: DateClickArg) => void;
-  isMobileDrawerOpen: boolean;
 }
 
-const Calendar = ({ monthlyTransactions, setCurrentMonth, setCurrentDay, currentDay, onDateClick, isMobileDrawerOpen }: CalendarProps) => {
+const Calendar = ({ monthlyTransactions, setCurrentMonth, setCurrentDay, currentDay, onDateClick }: CalendarProps) => {
   const theme = useTheme();
   const dailyBalances = calculateDailyBalances(monthlyTransactions);
 

@@ -25,9 +25,11 @@ interface TransactionMenuProps {
   onHandleAddTransactionForm: () => void;
   onSelectTransaction: (transaction: Transaction) => void;
   isMobile: boolean;
+  open: boolean;
+  onClose: () => void;
 }
 
-const TransactionMenu = ({ dailyTransactions, currentDay, onHandleAddTransactionForm, onSelectTransaction, isMobile }: TransactionMenuProps) => {
+const TransactionMenu = ({ dailyTransactions, currentDay, onHandleAddTransactionForm, onSelectTransaction, isMobile, open, onClose }: TransactionMenuProps) => {
   const menuDrawerWidth = 320;
   return (
     <Drawer
@@ -51,7 +53,11 @@ const TransactionMenu = ({ dailyTransactions, currentDay, onHandleAddTransaction
       }}
       variant={isMobile ? "temporary" : "persistent"}
       anchor={isMobile ? "bottom" : "right"}
-      open={true}
+      open={open}
+      onClose={onClose}
+      ModalProps={{
+        keepMounted: true, // Better open performance on mobile.
+      }}
     >
       <Stack sx={{ height: "100%" }} spacing={2}>
         <Typography fontWeight={"fontWeightBold"}>日時： {currentDay}</Typography>
