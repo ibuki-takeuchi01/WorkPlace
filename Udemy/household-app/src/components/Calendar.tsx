@@ -11,13 +11,15 @@ import { useTheme } from '@mui/material';
 import { format, isSameMonth } from 'date-fns';
 
 interface CalendarProps {
-  monthlyTransactions: Transaction[],
-  setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>
-  setCurrentDay: React.Dispatch<React.SetStateAction<string>>
-  currentDay: string
+  monthlyTransactions: Transaction[];
+  setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
+  setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
+  currentDay: string;
+  onDateClick: (dateInfo: DateClickArg) => void;
+  isMobileDrawerOpen: boolean;
 }
 
-const Calendar = ({ monthlyTransactions, setCurrentMonth, setCurrentDay, currentDay }: CalendarProps) => {
+const Calendar = ({ monthlyTransactions, setCurrentMonth, setCurrentDay, currentDay, onDateClick, isMobileDrawerOpen }: CalendarProps) => {
   const theme = useTheme();
   const dailyBalances = calculateDailyBalances(monthlyTransactions);
 
@@ -67,14 +69,6 @@ const Calendar = ({ monthlyTransactions, setCurrentMonth, setCurrentDay, current
     }
   }
 
-  /**
-   * 日付クリックイベント
-   * @param dateInfo 日付クリックイベント
-   */
-  const handleDateClick = (dateInfo: DateClickArg) => {
-    setCurrentDay(dateInfo.dateStr);
-  }
-
   return (
     <FullCalendar
       locale={jaLocale}
@@ -83,7 +77,7 @@ const Calendar = ({ monthlyTransactions, setCurrentMonth, setCurrentDay, current
       events={[...calendarEvents, setBackgroundColorEvent]}
       eventContent={renderEventContent}
       datesSet={handleDateSet}
-      dateClick={handleDateClick}
+      dateClick={onDateClick}
     />
   )
 }

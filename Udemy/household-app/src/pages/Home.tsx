@@ -7,6 +7,7 @@ import { Transaction } from '../types'
 import { useState } from 'react'
 import { format } from 'date-fns'
 import { Schema } from '../validations/schema'
+import { DateClickArg } from '@fullcalendar/interaction'
 
 interface HomeProps {
   monthlyTransactions: Transaction[];
@@ -21,6 +22,7 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
   const [currentDay, setCurrentDay] = useState(today);
   const [isEntryDrawerOpen, setIsEntryDrawerOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
   /** 1日分のデータを取得する処理 */
   const dailyTransactions = monthlyTransactions.filter((transaction) => {
@@ -48,6 +50,15 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
     setSelectedTransaction(transaction);
   }
 
+  /**
+ * 日付クリックイベント
+ * @param dateInfo 日付クリックイベント
+ */
+  const handleDateClick = (dateInfo: DateClickArg) => {
+    setCurrentDay(dateInfo.dateStr);
+    setIsMobileDrawerOpen(true);
+  }
+
   return (
     <Box sx={{ display: "flex" }}>
       {/* 左側コンテンツ */}
@@ -58,6 +69,8 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
           setCurrentMonth={setCurrentMonth}
           setCurrentDay={setCurrentDay}
           currentDay={currentDay}
+          onDateClick={handleDateClick}
+          isMobileDrawerOpen={isMobileDrawerOpen}
         />
       </Box>
       {/* 右側コンテンツ */}
@@ -67,6 +80,7 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
           currentDay={currentDay}
           onHandleAddTransactionForm={handleAddTransactionForm}
           onSelectTransaction={handleSelectTransaction}
+
         />
         <TransactionForm
           onCloseForm={closeForm}
