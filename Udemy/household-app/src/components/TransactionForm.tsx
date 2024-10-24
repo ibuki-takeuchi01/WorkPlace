@@ -42,6 +42,7 @@ interface TransactionFormProps {
   onDeleteTransaction: (transactionId: string | readonly string[]) => Promise<void>;
   onUpdateTransaction: (transaction: Schema, transactionId: string) => Promise<void>;
   isMobile: boolean;
+  isDialogOpen: boolean;
 }
 
 interface CategoryItem {
@@ -51,7 +52,7 @@ interface CategoryItem {
 
 type IncomeExpense = "income" | "expense"
 
-const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction, setSelectedTransaction, onDeleteTransaction, onUpdateTransaction, isMobile }: TransactionFormProps) => {
+const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction, setSelectedTransaction, onDeleteTransaction, onUpdateTransaction, isMobile, isDialogOpen }: TransactionFormProps) => {
   const formWidth = 320;
   const expenseCategories: CategoryItem[] = [
     { label: "食費", icon: <FastfoodIcon fontSize="small" /> },
@@ -308,7 +309,7 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
     <>
       {isMobile ? (
         /** モバイル */
-        <Dialog open={true} fullWidth maxWidth={"sm"}>
+        <Dialog open={isDialogOpen} onClose={onCloseForm} fullWidth maxWidth={"sm"}>
           <DialogContent>
             {formContent}
           </DialogContent>

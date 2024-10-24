@@ -23,6 +23,7 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
   const [isEntryDrawerOpen, setIsEntryDrawerOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
@@ -34,8 +35,13 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
 
   /** フォームの×ボタン押下時の処理 */
   const closeForm = () => {
-    setIsEntryDrawerOpen(!isEntryDrawerOpen);
     setSelectedTransaction(null);
+
+    if (isMobile) {
+      setIsDialogOpen(!isDialogOpen);
+    } else {
+      setIsEntryDrawerOpen(!isEntryDrawerOpen);
+    }
   };
 
   /** フォームの開閉処理(内訳追加ボタンを押したとき) */
@@ -101,6 +107,7 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
           onDeleteTransaction={onDeleteTransaction}
           onUpdateTransaction={onUpdateTransaction}
           isMobile={isMobile}
+          isDialogOpen={isDialogOpen}
         />
       </Box>
     </Box>
