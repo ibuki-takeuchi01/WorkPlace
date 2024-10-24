@@ -43,6 +43,7 @@ interface TransactionFormProps {
   onUpdateTransaction: (transaction: Schema, transactionId: string) => Promise<void>;
   isMobile: boolean;
   isDialogOpen: boolean;
+  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface CategoryItem {
@@ -52,7 +53,7 @@ interface CategoryItem {
 
 type IncomeExpense = "income" | "expense"
 
-const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction, setSelectedTransaction, onDeleteTransaction, onUpdateTransaction, isMobile, isDialogOpen }: TransactionFormProps) => {
+const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction, setSelectedTransaction, onDeleteTransaction, onUpdateTransaction, isMobile, isDialogOpen, setIsDialogOpen }: TransactionFormProps) => {
   const formWidth = 320;
   const expenseCategories: CategoryItem[] = [
     { label: "食費", icon: <FastfoodIcon fontSize="small" /> },
@@ -102,12 +103,14 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
 
   /** 送信処理 */
   const onSubmit: SubmitHandler<Schema> = (data) => {
-    console.log(data)
     if (selectedTransaction) {
       onUpdateTransaction(data, selectedTransaction.id)
         .then(() => {
           console.log("更新が完了しました。");
           setSelectedTransaction(null);
+          if (isMobile) {
+            setIsDialogOpen(false);
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -161,6 +164,9 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
   const handleDelete = () => {
     if (selectedTransaction) {
       onDeleteTransaction(selectedTransaction?.id);
+      if (isMobile) {
+        setIsDialogOpen(false);
+      }
       setSelectedTransaction(null);
     }
   }

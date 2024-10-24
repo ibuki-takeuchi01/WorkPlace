@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { format } from 'date-fns'
 import { Schema } from '../validations/schema'
 import { DateClickArg } from '@fullcalendar/interaction'
+import { tr } from 'date-fns/locale'
 
 interface HomeProps {
   monthlyTransactions: Transaction[];
@@ -46,17 +47,26 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
 
   /** フォームの開閉処理(内訳追加ボタンを押したとき) */
   const handleAddTransactionForm = () => {
-    if (selectedTransaction) {
-      setSelectedTransaction(null);
-    } else {
-      setIsEntryDrawerOpen(!isEntryDrawerOpen);
+    if (isMobile) {
+      setIsDialogOpen(true);
+    }
+    else {
+      if (selectedTransaction) {
+        setSelectedTransaction(null);
+      } else {
+        setIsEntryDrawerOpen(!isEntryDrawerOpen);
+      }
     }
   };
 
   /** 取引が選択された時の処理 */
   const handleSelectTransaction = (transaction: Transaction) => {
-    setIsEntryDrawerOpen(true);
     setSelectedTransaction(transaction);
+    if (isMobile) {
+      setIsDialogOpen(true)
+    } else {
+      setIsEntryDrawerOpen(true);
+    }
   }
 
   /** モバイル用Drawerを閉じる処理  */
@@ -108,6 +118,7 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
           onUpdateTransaction={onUpdateTransaction}
           isMobile={isMobile}
           isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
         />
       </Box>
     </Box>
