@@ -100,6 +100,7 @@ const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction, onDelet
           setSelectedTransaction={setSelectedTransaction}
           onDeleteTransaction={onDeleteTransaction}
           onUpdateTransaction={onUpdateTransaction}
+          isMobile={isMobile}
         />
       </Box>
     </Box>
