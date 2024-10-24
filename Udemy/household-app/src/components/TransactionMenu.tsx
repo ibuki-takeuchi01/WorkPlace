@@ -61,7 +61,10 @@ const TransactionMenu = ({ dailyTransactions, currentDay, onHandleAddTransaction
     >
       <Stack sx={{ height: "100%" }} spacing={2}>
         <Typography fontWeight={"fontWeightBold"}>日時： {currentDay}</Typography>
-        <DailySummary dailyTransactions={dailyTransactions} />
+        <DailySummary
+          dailyTransactions={dailyTransactions}
+          isMobile={isMobile}
+        />
         {/* 内訳タイトル&内訳追加ボタン */}
         <Box
           sx={{

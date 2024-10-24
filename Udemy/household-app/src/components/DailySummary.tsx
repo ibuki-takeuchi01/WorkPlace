@@ -5,15 +5,17 @@ import { formatCurrency } from "../utils/formatting";
 
 interface DailySummaryProps {
   dailyTransactions: Transaction[];
+  isMobile: boolean;
 }
 
-const DailySummary = ({ dailyTransactions }: DailySummaryProps) => {
+const DailySummary = ({ dailyTransactions, isMobile }: DailySummaryProps) => {
   const { income, expense, balance } = financeCalculations(dailyTransactions);
+
   return (
     <Box>
       <Grid2 container spacing={2}>
         {/* 収入 */}
-        <Grid2 size={{ xs: 6 }} display={"flex"}>
+        <Grid2 size={{ xs: isMobile ? 4 : 6 }} display={"flex"}>
           <Card
             sx={{ bgcolor: (theme) => theme.palette.grey[100], flexGrow: 1 }}
           >
@@ -35,7 +37,7 @@ const DailySummary = ({ dailyTransactions }: DailySummaryProps) => {
           </Card>
         </Grid2>
         {/* 支出 */}
-        <Grid2 size={{ xs: 6 }} display={"flex"}>
+        <Grid2 size={{ xs: isMobile ? 4 : 6 }} display={"flex"}>
           <Card
             sx={{ bgcolor: (theme) => theme.palette.grey[100], flexGrow: 1 }}
           >
@@ -57,7 +59,7 @@ const DailySummary = ({ dailyTransactions }: DailySummaryProps) => {
           </Card>
         </Grid2>
         {/* 残高 */}
-        <Grid2 size={{ xs: 12 }} display={"flex"}>
+        <Grid2 size={{ xs: isMobile ? 4 : 12 }} display={"flex"}>
           <Card
             sx={{ bgcolor: (theme) => theme.palette.grey[100], flexGrow: 1 }}
           >
