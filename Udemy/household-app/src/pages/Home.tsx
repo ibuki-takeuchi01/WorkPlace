@@ -8,7 +8,6 @@ import { useState } from 'react'
 import { format } from 'date-fns'
 import { Schema } from '../validations/schema'
 import { DateClickArg } from '@fullcalendar/interaction'
-import { tr } from 'date-fns/locale'
 
 interface HomeProps {
   monthlyTransactions: Transaction[];
