@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import { Transaction } from "../types";
 
 interface AppContextType {
@@ -14,5 +14,14 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     <AppContext.Provider value={{ transactions, setTransactions }}>
       {children}
     </AppContext.Provider>
-  )
+  );
+};
+
+export const useAppContext = () => {
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error("グローバルなデータはプロバイダーの中で取得してください。");
+  }
+
+  return context;
 }

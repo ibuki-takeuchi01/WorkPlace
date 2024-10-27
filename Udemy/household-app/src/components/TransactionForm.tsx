@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ExpenseCategory, IncomeCategory, Transaction } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
@@ -31,7 +31,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import SavingsIcon from '@mui/icons-material/Savings';
 import { Schema, transactionSchema } from "../validations/schema";
-import { AppContext } from "./AppContext";
+import { useAppContext } from "./AppContext";
 
 interface TransactionFormProps {
   onCloseForm: () => void;
@@ -58,7 +58,7 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
   const formWidth = 320;
 
   /** グローバルな値を取得 */
-  const context = useContext(AppContext);
+  const context = useAppContext()
 
   /** 支出用カテゴろ */
   const expenseCategories: CategoryItem[] = [
