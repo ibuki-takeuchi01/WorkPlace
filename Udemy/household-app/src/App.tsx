@@ -13,15 +13,11 @@ import { db } from "./firebase"
 import { formatMonth } from "./utils/formatting";
 import { Schema } from "./validations/schema";
 import { AppContextProvider } from "./components/AppContext";
+import { isFireStoreError } from "./utils/errorHandling";
 
 function App() {
-
-  /** Firestoreがエラーかどうか判定する型ガード */
-  function isFireStoreError(error: unknown): error is { code: string, message: string } {
-    return typeof error === "object" && error !== null && "code" in error
-  }
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [currentMont, setCurrentMonth] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isLoading, setIsLoading] = useState(true);
 
   /** firebaseのデータをすべて取得 */
@@ -52,7 +48,7 @@ function App() {
 
   /** 1ヶ月分のデータのみ取得 */
   const monthlyTransactions = transactions.filter((transaction) => {
-    return transaction.date.startsWith(formatMonth(currentMont));
+    return transaction.date.startsWith(formatMonth(currentMonth));
   });
 
   /** 取引をFirebaseに保存する処理 */
@@ -133,7 +129,7 @@ function App() {
                 />} />
               <Route path="/report" element={
                 <Report
-                  currentMont={currentMont}
+                  currentMont={currentMonth}
                   setCurrentMonth={setCurrentMonth}
                   monthlyTransactions={monthlyTransactions}
                   isLoading={isLoading}
