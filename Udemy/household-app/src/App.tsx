@@ -12,7 +12,7 @@ import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase
 import { db } from "./firebase"
 import { formatMonth } from "./utils/formatting";
 import { Schema } from "./validations/schema";
-import { AppContextProvider } from "./components/Appcontext";
+import { AppContextProvider } from "./components/AppContext";
 
 function App() {
 
