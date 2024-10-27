@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ExpenseCategory, IncomeCategory, Transaction } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
@@ -31,6 +31,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import SavingsIcon from '@mui/icons-material/Savings';
 import { Schema, transactionSchema } from "../validations/schema";
+import { AppContext } from "./AppContext";
 
 interface TransactionFormProps {
   onCloseForm: () => void;
@@ -55,6 +56,11 @@ type IncomeExpense = "income" | "expense"
 
 const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction, setSelectedTransaction, onDeleteTransaction, onUpdateTransaction, isMobile, isDialogOpen, setIsDialogOpen }: TransactionFormProps) => {
   const formWidth = 320;
+
+  /** グローバルな値を取得 */
+  const context = useContext(AppContext);
+
+  /** 支出用カテゴろ */
   const expenseCategories: CategoryItem[] = [
     { label: "食費", icon: <FastfoodIcon fontSize="small" /> },
     { label: "日用品", icon: <DryCleaningIcon fontSize="small" /> },
@@ -64,6 +70,8 @@ const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTra
     { label: "交通費", icon: <TrainIcon fontSize="small" /> },
     { label: "医療費", icon: <MedicalServicesIcon fontSize="small" /> },
   ]
+
+  /** 収入用カテゴリ */
   const incomeCategories: CategoryItem[] = [
     { label: "給与", icon: <AttachMoneyIcon fontSize="small" /> },
     { label: "ボーナス", icon: <CurrencyExchangeIcon fontSize="small" /> },
