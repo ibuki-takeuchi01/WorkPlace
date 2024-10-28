@@ -10,7 +10,6 @@ import { useState } from "react";
 import { Transaction } from "./types/index";
 import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase"
-import { formatMonth } from "./utils/formatting";
 import { Schema } from "./validations/schema";
 import { AppContextProvider } from "./components/AppContext";
 import { isFireStoreError } from "./utils/errorHandling";
@@ -19,11 +18,6 @@ function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isLoading, setIsLoading] = useState(true);
-
-  /** 1ヶ月分のデータのみ取得 */
-  const monthlyTransactions = transactions.filter((transaction) => {
-    return transaction.date.startsWith(formatMonth(currentMonth));
-  });
 
   /** 取引をFirebaseに保存する処理 */
   const handleSaveTransaction = async (transaction: Schema) => {
