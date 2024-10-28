@@ -6,9 +6,9 @@ import AppLayout from "./components/layout/AppLayout";
 import { theme } from "./theme/theme";
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Transaction } from "./types/index";
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase"
 import { formatMonth } from "./utils/formatting";
 import { Schema } from "./validations/schema";
@@ -19,32 +19,6 @@ function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isLoading, setIsLoading] = useState(true);
-
-  /** firebaseのデータをすべて取得 */
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "Transactions"));
-        const transactionsData = querySnapshot.docs.map((doc) => {
-          return {
-            ...doc.data(),
-            id: doc.id,
-          } as Transaction
-        });
-        setTransactions(transactionsData);
-      } catch (error) {
-        if (isFireStoreError(error)) {
-          console.error("firebaseエラー:", error);
-        } else {
-          console.error("一般的なエラー:", error);
-        }
-      } finally {
-        setIsLoading(false);
-        console.log(isLoading);
-      }
-    }
-    fetchTransactions();
-  }, [])
 
   /** 1ヶ月分のデータのみ取得 */
   const monthlyTransactions = transactions.filter((transaction) => {
