@@ -21,6 +21,8 @@ import { Grid2 } from '@mui/material';
 import { formatCurrency } from '../utils/formatting';
 import IconComponents from './common/IconComponents';
 import { compareDesc, parseISO } from 'date-fns';
+import useMonthlyTransactions from '../hooks/useMonthlyTransactions';
+import { useAppContext } from './AppContext';
 
 interface Data {
   id: number;
@@ -185,7 +187,11 @@ interface TransactionTableProps {
 }
 
 /** テーブル本体 */
-export default function TransactionTable({ monthlyTransactions, onDeleteTransaction }: TransactionTableProps) {
+export default function TransactionTable(
+  // { monthlyTransactions, onDeleteTransaction }: TransactionTableProps
+) {
+  const { onDeleteTransaction } = useAppContext();
+  const monthlyTransactions = useMonthlyTransactions();
   const theme = useTheme();
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);

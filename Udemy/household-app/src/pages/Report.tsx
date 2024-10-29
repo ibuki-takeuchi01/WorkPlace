@@ -50,8 +50,8 @@ const Report = (
       </Grid2>
       <Grid2 size={{ xs: 12 }}>
         <TransactionTable
-          monthlyTransactions={monthlyTransactions}
-          onDeleteTransaction={onDeleteTransaction}
+        // monthlyTransactions={monthlyTransactions}
+        // onDeleteTransaction={onDeleteTransaction}
         />
       </Grid2>
     </Grid2>
