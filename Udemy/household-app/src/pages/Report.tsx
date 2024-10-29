@@ -4,6 +4,7 @@ import CategoryChart from '../components/CategoryChart'
 import BarChart from '../components/BarChart'
 import TransactionTable from '../components/TransactionTable'
 import { Transaction } from '../types'
+import { useAppContext } from '../components/AppContext'
 
 interface ReportProps {
   currentMont: Date;
@@ -13,7 +14,9 @@ interface ReportProps {
   onDeleteTransaction: (transactionId: string | readonly string[]) => Promise<void>;
 }
 
-const Report = ({ currentMont, setCurrentMonth, monthlyTransactions, isLoading, onDeleteTransaction }: ReportProps) => {
+const Report = (
+  // { currentMont, setCurrentMonth, monthlyTransactions, isLoading, onDeleteTransaction }: ReportProps
+) => {
   const commonPaperStyle = {
     height: "400px",
     display: "flex",
@@ -25,15 +28,15 @@ const Report = ({ currentMont, setCurrentMonth, monthlyTransactions, isLoading, 
     <Grid2 container spacing={2}>
       <Grid2 size={{ xs: 12 }}>
         <MonthSelector
-          currentMont={currentMont}
-          setCurrentMonth={setCurrentMonth}
+        // currentMont={currentMont}
+        // setCurrentMonth={setCurrentMonth}
         />
       </Grid2>
       <Grid2 size={{ xs: 12, md: 4 }}>
         <Paper sx={commonPaperStyle}>
           <CategoryChart
-            monthlyTransactions={monthlyTransactions}
-            isLoading={isLoading}
+          // monthlyTransactions={monthlyTransactions}
+          // isLoading={isLoading}
           />
         </Paper>
       </Grid2>

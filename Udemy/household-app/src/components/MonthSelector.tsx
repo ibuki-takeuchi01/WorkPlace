@@ -3,14 +3,18 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { addMonths } from 'date-fns';
 import { ja } from "date-fns/locale"
+import { useAppContext } from './AppContext';
 
 interface MonthSelectorProps {
   currentMont: Date;
   setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
 }
 
-const MonthSelector = ({ currentMont, setCurrentMonth }: MonthSelectorProps) => {
+const MonthSelector = (
+  // { currentMont, setCurrentMonth }: MonthSelectorProps
+) => {
 
+  const { currentMonth, setCurrentMonth } = useAppContext();
   const handleDateChange = (newDate: Date | null) => {
     console.log(newDate);
     if (newDate) {
@@ -20,13 +24,13 @@ const MonthSelector = ({ currentMont, setCurrentMonth }: MonthSelectorProps) => 
 
   /** 先月ボタン押下時の処理 */
   const handlePreviousMonth = () => {
-    const previousMonth = addMonths(currentMont, -1);
+    const previousMonth = addMonths(currentMonth, -1);
     setCurrentMonth(previousMonth);
   }
 
   /** 次月ボタン押下時の処理 */
   const handleNextMonth = () => {
-    const nextMonth = addMonths(currentMont, 1);
+    const nextMonth = addMonths(currentMonth, 1);
     setCurrentMonth(nextMonth);
   }
 
@@ -42,7 +46,7 @@ const MonthSelector = ({ currentMont, setCurrentMonth }: MonthSelectorProps) => 
         <DatePicker
           onChange={handleDateChange}
           label="年月を選択"
-          value={currentMont}
+          value={currentMonth}
           sx={{ mx: 2, background: "white" }}
           views={["year", "month"]}
           format='yyyy/MM'

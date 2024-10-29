@@ -3,6 +3,8 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJs, ArcElement, Legend, Tooltip, ChartData } from 'chart.js';
 import { useState } from 'react';
 import { ExpenseCategory, IncomeCategory, Transaction, TransactionType } from '../types';
+import { useAppContext } from './AppContext';
+import useMonthlyTransactions from '../hooks/useMonthlyTransactions';
 
 ChartJs.register(
   ArcElement,
@@ -16,7 +18,11 @@ interface CategoryChartProps {
 }
 
 /** 円グラフ */
-const CategoryChart = ({ monthlyTransactions, isLoading }: CategoryChartProps) => {
+const CategoryChart = (
+  // { monthlyTransactions, isLoading }: CategoryChartProps
+) => {
+  const { isLoading } = useAppContext();
+  const monthlyTransactions = useMonthlyTransactions();
   const theme = useTheme();
   const [selectedType, setSelectedType] = useState<TransactionType>("expense");
 
