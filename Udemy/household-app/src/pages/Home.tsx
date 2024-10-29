@@ -36,7 +36,7 @@ const Home = (
 
   /** 1日分のデータを取得する処理 */
   const dailyTransactions = useMemo(() => {
-    monthlyTransactions.filter(
+    return monthlyTransactions.filter(
       (transaction) => transaction.date === currentDay
     );
   }, [monthlyTransactions, currentDay])
