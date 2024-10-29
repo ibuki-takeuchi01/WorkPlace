@@ -9,6 +9,8 @@ import { calculateDailyBalances } from '../utils/financeCalculations'
 import { formatCurrency } from '../utils/formatting'
 import { useTheme } from '@mui/material';
 import { format, isSameMonth } from 'date-fns';
+import useMonthlyTransactions from '../hooks/useMonthlyTransactions';
+import { useAppContext } from './AppContext';
 
 interface CalendarProps {
   monthlyTransactions: Transaction[];
@@ -18,7 +20,9 @@ interface CalendarProps {
   onDateClick: (dateInfo: DateClickArg) => void;
 }
 
-const Calendar = ({ monthlyTransactions, setCurrentMonth, setCurrentDay, currentDay, onDateClick }: CalendarProps) => {
+const Calendar = ({ setCurrentDay, currentDay, onDateClick }: CalendarProps) => {
+  const { setCurrentMonth } = useAppContext();
+  const monthlyTransactions = useMonthlyTransactions();
   const theme = useTheme();
   const dailyBalances = calculateDailyBalances(monthlyTransactions);
 
