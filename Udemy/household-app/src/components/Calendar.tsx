@@ -13,8 +13,6 @@ import useMonthlyTransactions from '../hooks/useMonthlyTransactions';
 import { useAppContext } from './AppContext';
 
 interface CalendarProps {
-  monthlyTransactions: Transaction[];
-  setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
   setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
   currentDay: string;
   onDateClick: (dateInfo: DateClickArg) => void;
