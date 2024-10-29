@@ -37,12 +37,8 @@ interface TransactionFormProps {
   onCloseForm: () => void;
   isEntryDrawerOpen: boolean;
   currentDay: string;
-  onSaveTransaction: (transaction: Schema) => Promise<void>;
   selectedTransaction: Transaction | null;
   setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>
-  onDeleteTransaction: (transactionId: string | readonly string[]) => Promise<void>;
-  onUpdateTransaction: (transaction: Schema, transactionId: string) => Promise<void>;
-  isMobile: boolean;
   isDialogOpen: boolean;
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -54,7 +50,8 @@ interface CategoryItem {
 
 type IncomeExpense = "income" | "expense"
 
-const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, onSaveTransaction, selectedTransaction, setSelectedTransaction, onDeleteTransaction, onUpdateTransaction, isMobile, isDialogOpen, setIsDialogOpen }: TransactionFormProps) => {
+const TransactionForm = ({ onCloseForm, isEntryDrawerOpen, currentDay, selectedTransaction, setSelectedTransaction, isDialogOpen, setIsDialogOpen }: TransactionFormProps) => {
+  const { onSaveTransaction, onDeleteTransaction, onUpdateTransaction, isMobile } = useAppContext();
   const formWidth = 320;
 
   /** グローバルな値を取得 */
