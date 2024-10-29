@@ -13,6 +13,8 @@ import { Transaction } from "../types";
 import { calculateDailyBalances } from "../utils/financeCalculations";
 import { Box, Typography, useTheme } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
+import useMonthlyTransactions from "../hooks/useMonthlyTransactions";
+import { useAppContext } from "./AppContext";
 
 ChartJs.register(
   CategoryScale,
@@ -28,7 +30,11 @@ interface BarChartProps {
   isLoading: boolean;
 }
 
-const BarChart = ({ monthlyTransactions, isLoading }: BarChartProps) => {
+const BarChart = (
+  // { monthlyTransactions, isLoading }: BarChartProps
+) => {
+  const { isLoading } = useAppContext();
+  const monthlyTransactions = useMonthlyTransactions();
   const theme = useTheme();
   const options = {
     maintainAspectRatio: false,

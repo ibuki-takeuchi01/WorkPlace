@@ -43,8 +43,8 @@ const Report = (
       <Grid2 size={{ xs: 12, md: 8 }}>
         <Paper sx={commonPaperStyle}>
           <BarChart
-            monthlyTransactions={monthlyTransactions}
-            isLoading={isLoading}
+          // monthlyTransactions={monthlyTransactions}
+          // isLoading={isLoading}
           />
         </Paper>
       </Grid2>
