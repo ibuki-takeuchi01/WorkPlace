@@ -1,4 +1,4 @@
-import { Box, useMediaQuery, useTheme } from '@mui/material'
+import { Box } from '@mui/material'
 import MonthlySummary from '../components/MonthlySummary'
 import Calendar from '../components/Calendar'
 import TransactionMenu from '../components/TransactionMenu'
@@ -11,17 +11,8 @@ import { DateClickArg } from '@fullcalendar/interaction'
 import { useAppContext } from '../components/AppContext'
 import useMonthlyTransactions from '../hooks/useMonthlyTransactions'
 
-interface HomeProps {
-  monthlyTransactions: Transaction[];
-  setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
-  onSaveTransaction: (transaction: Schema) => Promise<void>;
-  onDeleteTransaction: (transactionId: string | readonly string[]) => Promise<void>;
-  onUpdateTransaction: (transaction: Schema, transactionId: string) => Promise<void>;
-}
 
-const Home = (
-  // { monthlyTransactions, setCurrentMonth, onSaveTransaction, onDeleteTransaction, onUpdateTransaction }: HomeProps
-) => {
+const Home = () => {
   const { isMobile } = useAppContext();
   const monthlyTransactions = useMonthlyTransactions();
   const today = format(new Date(), "yyyy-MM-dd");
@@ -30,9 +21,6 @@ const Home = (
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  // const theme = useTheme();
-  // const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
 
   /** 1日分のデータを取得する処理 */
   const dailyTransactions = useMemo(() => {
@@ -94,12 +82,8 @@ const Home = (
     <Box sx={{ display: "flex" }}>
       {/* 左側コンテンツ */}
       <Box sx={{ flexGrow: 1 }}>
-        <MonthlySummary
-        // monthlyTransactions={monthlyTransactions}
-        />
+        <MonthlySummary />
         <Calendar
-          // monthlyTransactions={monthlyTransactions}
-          // setCurrentMonth={setCurrentMonth}
           setCurrentDay={setCurrentDay}
           currentDay={currentDay}
           onDateClick={handleDateClick}
@@ -112,7 +96,6 @@ const Home = (
           currentDay={currentDay}
           onHandleAddTransactionForm={handleAddTransactionForm}
           onSelectTransaction={handleSelectTransaction}
-          // isMobile={isMobile}
           open={isMobileDrawerOpen}
           onClose={handleCloseMobileDrawer}
         />
@@ -122,10 +105,6 @@ const Home = (
           currentDay={currentDay}
           selectedTransaction={selectedTransaction}
           setSelectedTransaction={setSelectedTransaction}
-          // onSaveTransaction={onSaveTransaction}
-          // onDeleteTransaction={onDeleteTransaction}
-          // onUpdateTransaction={onUpdateTransaction}
-          // isMobile={isMobile}
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}
         />
