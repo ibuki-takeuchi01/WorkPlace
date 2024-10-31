@@ -9,7 +9,6 @@ import {
   ChartData,
 } from "chart.js";
 import { Bar } from 'react-chartjs-2';
-import { Transaction } from "../types";
 import { calculateDailyBalances } from "../utils/financeCalculations";
 import { Box, Typography, useTheme } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -25,14 +24,7 @@ ChartJs.register(
   Legend
 );
 
-interface BarChartProps {
-  monthlyTransactions: Transaction[];
-  isLoading: boolean;
-}
-
-const BarChart = (
-  // { monthlyTransactions, isLoading }: BarChartProps
-) => {
+const BarChart = () => {
   const { isLoading } = useAppContext();
   const monthlyTransactions = useMonthlyTransactions();
   const theme = useTheme();

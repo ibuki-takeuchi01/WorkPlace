@@ -12,15 +12,8 @@ ChartJs.register(
   Legend
 );
 
-interface CategoryChartProps {
-  monthlyTransactions: Transaction[];
-  isLoading: boolean
-}
-
 /** 円グラフ */
-const CategoryChart = (
-  // { monthlyTransactions, isLoading }: CategoryChartProps
-) => {
+const CategoryChart = () => {
   const { isLoading } = useAppContext();
   const monthlyTransactions = useMonthlyTransactions();
   const theme = useTheme();

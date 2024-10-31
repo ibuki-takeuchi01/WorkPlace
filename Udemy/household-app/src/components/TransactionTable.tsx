@@ -15,7 +15,6 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Transaction } from '../types';
 import { financeCalculations } from '../utils/financeCalculations';
 import { Grid2 } from '@mui/material';
 import { formatCurrency } from '../utils/formatting';
@@ -181,15 +180,8 @@ function FinancialItem({ title, value, color }: FinancialItemProps) {
   )
 }
 
-interface TransactionTableProps {
-  monthlyTransactions: Transaction[];
-  onDeleteTransaction: (transactionId: string | readonly string[]) => Promise<void>;
-}
-
 /** テーブル本体 */
-export default function TransactionTable(
-  // { monthlyTransactions, onDeleteTransaction }: TransactionTableProps
-) {
+export default function TransactionTable() {
   const { onDeleteTransaction } = useAppContext();
   const monthlyTransactions = useMonthlyTransactions();
   const theme = useTheme();

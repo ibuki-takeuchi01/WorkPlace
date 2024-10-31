@@ -4,7 +4,7 @@ import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import jaLocale from '@fullcalendar/core/locales/ja'
 import "../calendar.css"
 import { DatesSetArg, EventContentArg } from '@fullcalendar/core'
-import { Balance, CalendarContent, Transaction } from '../types'
+import { Balance, CalendarContent } from '../types'
 import { calculateDailyBalances } from '../utils/financeCalculations'
 import { formatCurrency } from '../utils/formatting'
 import { useTheme } from '@mui/material';
